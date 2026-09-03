@@ -1,0 +1,101 @@
+[
+  {
+    "symbol": "ARBUSDT",
+    "entry_time": "2026-09-03 12:10:00",
+    "exit_time": "2026-09-03 22:35:00",
+    "entry": 0.1374,
+    "exit": 0.1405,
+    "pnl_pct": 2.256,
+    "pnl_usdt": 1.128,
+    "reason": "End of Data (still open)",
+    "duration_min": 625.0
+  },
+  {
+    "symbol": "MUBARAKUSDT",
+    "entry_time": "2026-09-03 00:00:00",
+    "exit_time": "2026-09-03 03:05:00",
+    "entry": 0.02896,
+    "exit": 0.02748,
+    "pnl_pct": -5.11,
+    "pnl_usdt": -2.555,
+    "reason": "Hard Stop",
+    "duration_min": 185.0
+  },
+  {
+    "symbol": "FFUSDT",
+    "entry_time": "2026-09-03 05:00:00",
+    "exit_time": "2026-09-03 06:55:00",
+    "entry": 0.10985,
+    "exit": 0.09537,
+    "pnl_pct": -13.182,
+    "pnl_usdt": -6.591,
+    "reason": "Hard Stop",
+    "duration_min": 115.0
+  },
+  {
+    "symbol": "TUSDT",
+    "entry_time": "2026-09-02 06:15:00",
+    "exit_time": "2026-09-02 07:35:00",
+    "entry": 0.00419,
+    "exit": 0.00433,
+    "pnl_pct": 3.341,
+    "pnl_usdt": 1.671,
+    "reason": "ATR Trail",
+    "duration_min": 80.0
+  },
+  {
+    "symbol": "LAUSDT",
+    "entry_time": "2026-09-02 10:05:00",
+    "exit_time": "2026-09-03 22:35:00",
+    "entry": 0.0646,
+    "exit": 0.0641,
+    "pnl_pct": -0.774,
+    "pnl_usdt": -0.387,
+    "reason": "End of Data (still open)",
+    "duration_min": 2190.0
+  },
+  {
+    "symbol": "MITOUSDT",
+    "entry_time": "2026-09-03 16:10:00",
+    "exit_time": "2026-09-03 22:35:00",
+    "entry": 0.01793,
+    "exit": 0.01717,
+    "pnl_pct": -4.239,
+    "pnl_usdt": -2.119,
+    "reason": "End of Data (still open)",
+    "duration_min": 385.0
+  },
+  {
+    "symbol": "HOODBUSDT",
+    "entry_time": "2026-09-02 13:45:00",
+    "exit_time": "2026-09-03 22:35:00",
+    "entry": 104.54,
+    "exit": 123.41,
+    "pnl_pct": 18.051,
+    "pnl_usdt": 9.025,
+    "reason": "End of Data (still open)",
+    "duration_min": 1970.0
+  },
+  {
+    "symbol": "KITEUSDT",
+    "entry_time": "2026-09-03 07:05:00",
+    "exit_time": "2026-09-03 15:25:00",
+    "entry": 0.1419,
+    "exit": 0.1344,
+    "pnl_pct": -5.285,
+    "pnl_usdt": -2.643,
+    "reason": "Hard Stop",
+    "duration_min": 500.0
+  },
+  {
+    "symbol": "XVGUSDT",
+    "entry_time": "2026-09-02 17:50:00",
+    "exit_time": "2026-09-03 05:30:00",
+    "entry": 0.002677,
+    "exit": 0.002524,
+    "pnl_pct": -5.715,
+    "pnl_usdt": -2.858,
+    "reason": "Hard Stop",
+    "duration_min": 700.0
+  }
+]

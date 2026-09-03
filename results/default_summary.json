@@ -1,0 +1,30 @@
+{
+  "generated_at_utc": "2026-09-03T22:43:22.867180+00:00",
+  "data_source_used": "https://data-api.binance.vision/api/v3",
+  "config": {
+    "min_change_pct": 1.5,
+    "volume_mult": 5.0,
+    "rsi_min": 45,
+    "rsi_max": 70,
+    "min_tests": 7,
+    "atr_mult": 3.0,
+    "trail_activate_pct": 10.0,
+    "hard_stop_pct": 5.0,
+    "trade_usdt": 50.0,
+    "cooldown_candles": 1440
+  },
+  "period_days": 7,
+  "interval": "5m",
+  "symbols_tested": 200,
+  "symbols_with_data": 185,
+  "total_signals": 1096,
+  "confirmed_signals": 9,
+  "total_trades": 9,
+  "wins": 3,
+  "losses": 6,
+  "win_rate_pct": 33.33,
+  "total_pnl_usdt": -5.329,
+  "profit_factor": 0.689,
+  "capital_deployed_usdt": 450.0,
+  "return_pct": -1.184
+}
