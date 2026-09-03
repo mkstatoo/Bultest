@@ -1,0 +1,83 @@
+name: 🐂 Bull Hunter v2 — بک‌تست واقعی
+
+# این workflow روی سرورهای GitHub اجرا می‌شود که برخلاف sandbox محدود،
+# دسترسی کامل به اینترنت (از جمله API صرافی Binance) دارند.
+
+on:
+  # اجرای دستی از تب Actions با پارامترهای قابل تنظیم
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "تعداد روزهای بک‌تست"
+        required: false
+        default: "14"
+      interval:
+        description: "تایم‌فریم کندل (1m, 5m, 15m, 1h)"
+        required: false
+        default: "5m"
+      symbols:
+        description: "تعداد ارز از Top200 (200 = همه، برای تست سریع کمتر بدهید مثلاً 20)"
+        required: false
+        default: "200"
+      min_change:
+        description: "حداقل رشد ٪ برای سیگنال اولیه"
+        required: false
+        default: "1.5"
+      min_tests:
+        description: "حداقل تست‌های لازم از ۸ (پیشنهاد: 6 یا 7)"
+        required: false
+        default: "7"
+
+  # اجرای خودکار هفتگی (اختیاری — می‌توانید کامنت یا حذف کنید)
+  schedule:
+    - cron: "0 3 * * 1"  # هر دوشنبه ساعت 03:00 UTC
+
+permissions:
+  contents: write   # برای commit کردن نتایج به ریپو
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: چک‌اوت کد
+        uses: actions/checkout@v4
+
+      - name: نصب Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: نصب وابستگی‌ها
+        run: pip install -r requirements.txt
+
+      - name: اجرای بک‌تست واقعی روی Binance
+        run: |
+          python src/backtest_real.py \
+            --days "${{ github.event.inputs.days || '14' }}" \
+            --interval "${{ github.event.inputs.interval || '5m' }}" \
+            --symbols "${{ github.event.inputs.symbols || '200' }}" \
+            --min-change "${{ github.event.inputs.min_change || '1.5' }}" \
+            --min-tests "${{ github.event.inputs.min_tests || '7' }}" \
+            --out results
+
+      - name: نمایش خلاصه در لاگ
+        run: cat results/report.md
+
+      - name: آپلود نتایج به‌عنوان Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backtest-results-${{ github.run_number }}
+          path: results/
+          retention-days: 90
+
+      - name: Commit نتایج به ریپو (تاریخچه بک‌تست‌ها)
+        run: |
+          git config user.name "Bull Hunter Bot"
+          git config user.email "actions@github.com"
+          mkdir -p history
+          cp results/summary.json "history/summary_$(date -u +%Y%m%d_%H%M%S).json"
+          git add results/ history/
+          git commit -m "📊 بک‌تست واقعی $(date -u +%Y-%m-%d\ %H:%M\ UTC)" || echo "تغییری برای commit نبود"
+          git push || echo "push انجام نشد (احتمالاً branch protection)"
