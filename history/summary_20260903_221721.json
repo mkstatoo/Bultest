@@ -1,0 +1,29 @@
+{
+  "generated_at_utc": "2026-09-03T22:17:19.983509+00:00",
+  "config": {
+    "min_change_pct": 1.5,
+    "volume_mult": 5.0,
+    "rsi_min": 45,
+    "rsi_max": 70,
+    "min_tests": 7,
+    "atr_mult": 3.0,
+    "trail_activate_pct": 10.0,
+    "hard_stop_pct": 5.0,
+    "trade_usdt": 50.0,
+    "cooldown_candles": 1440
+  },
+  "period_days": 7,
+  "interval": "5m",
+  "symbols_tested": 20,
+  "symbols_with_data": 0,
+  "total_signals": 0,
+  "confirmed_signals": 0,
+  "total_trades": 0,
+  "wins": 0,
+  "losses": 0,
+  "win_rate_pct": 0,
+  "total_pnl_usdt": 0,
+  "profit_factor": 0,
+  "capital_deployed_usdt": 0.0,
+  "return_pct": 0
+}
