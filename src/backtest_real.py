@@ -231,7 +231,7 @@ def compute_indicators(df: pd.DataFrame, vwap_window: int) -> pd.DataFrame:
 def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
     signals, trades = [], []
     open_trade = None
-    last_signal_idx = None
+    last_exit_idx = None  # کولداون از لحظه خروج (فروش) شمرده می‌شود، نه ورود
     start_idx = max(60, cfg["cooldown_candles"])
 
     if len(df) <= start_idx:
@@ -272,6 +272,7 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
                     "duration_min": round((row["dt"] - open_trade["entry_time"]).total_seconds() / 60, 1),
                 })
                 open_trade = None
+                last_exit_idx = i  # کولداون از همین لحظه (فروش) شروع می‌شود
             continue
 
         if pd.isna(row["rsi7"]) or pd.isna(row["macd_hist"]) or pd.isna(row["bb_upper"]) or pd.isna(row["vwap"]):
@@ -286,7 +287,7 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
         t3 = row["macd_hist"] > 0
         t4 = row["close"] > row["bb_upper"]
         t5 = row["close"] > row["vwap"]
-        t6 = (last_signal_idx is None) or (i - last_signal_idx >= cfg["cooldown_candles"])
+        t6 = (last_exit_idx is None) or (i - last_exit_idx >= cfg["cooldown_candles"])
         t7 = row["ema20"] > row["ema50"]
         t8 = bool(row["atr_squeeze"])
 
@@ -298,7 +299,6 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
                         "change_pct": round(float(chg), 3), "tests_passed": passed, "confirmed": confirmed})
 
         if confirmed:
-            last_signal_idx = i
             open_trade = {
                 "entry": row["close"], "entry_time": row["dt"], "high": row["close"],
                 "atr": row["atr10"], "trail_on": False, "trail_stop": None,
