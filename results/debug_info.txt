@@ -1,25 +1,5 @@
-اجرا در: 2026-09-03T22:24:14.018310+00:00
-تعداد رکورد لاگ: 9
+اجرا در: 2026-09-03T22:25:40.875441+00:00
+تعداد رکورد لاگ: 2
 ============================================================
-[ping] status=451 body={
-  "code": 0,
-  "msg": "Service unavailable from a restricted location according to 'b. Eligibility' in https://www.binance.com/en/terms. Please cont
-[time] status=451 body={
-  "code": 0,
-  "msg": "Service unavailable from a restricted location according to 'b. Eligibility' in https://www.binance.com/en/terms. Please cont
-[exchangeInfo BTCUSDT] status=451 body={
-  "code": 0,
-  "msg": "Service unavailable from a restricted location according to 'b. Eligibility' in https://www.binance.com/en/terms. Please contact customer service if you believe you received this message in error."
-}
-BTCUSDT: HTTP 451 — {
-  "code": 0,
-  "msg": "Service unavailable from a restricted location according to 'b. Eligibility' in https://www.binance.com/en/terms. Please contact customer service if you believe you received t
-BTCUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
-ETHUSDT: HTTP 451 — {
-  "code": 0,
-  "msg": "Service unavailable from a restricted location according to 'b. Eligibility' in https://www.binance.com/en/terms. Please contact customer service if you believe you received t
-ETHUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
-BNBUSDT: HTTP 451 — {
-  "code": 0,
-  "msg": "Service unavailable from a restricted location according to 'b. Eligibility' in https://www.binance.com/en/terms. Please contact customer service if you believe you received t
-BNBUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
+[ping BINANCE_BASE] status=200
+[exchangeInfo via https://api.binance.com/api/v3] status=200 body={"timezone":"UTC","serverTime":1788474338102,"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNu
