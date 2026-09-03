@@ -27,6 +27,10 @@ on:
         description: "حداقل تست‌های لازم از ۸ (پیشنهاد: 6 یا 7)"
         required: false
         default: "7"
+      optimize:
+        description: "بهینه‌سازی پارامترها (grid search) برای یافتن بیشترین سود — true/false"
+        required: false
+        default: "false"
 
   # اجرای خودکار هفتگی (اختیاری — می‌توانید کامنت یا حذف کنید)
   schedule:
@@ -60,7 +64,8 @@ jobs:
             --symbols "${{ github.event.inputs.symbols || '200' }}" \
             --min-change "${{ github.event.inputs.min_change || '1.5' }}" \
             --min-tests "${{ github.event.inputs.min_tests || '7' }}" \
-            --out results
+            --out results \
+            ${{ github.event.inputs.optimize == 'true' && '--optimize' || '' }}
 
       - name: نمایش خلاصه در لاگ
         run: cat results/report.md
