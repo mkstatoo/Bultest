@@ -397,7 +397,8 @@ def main():
         f.write("\n".join(md))
 
     # ── ذخیره لاگ عیب‌یابی (شامل تست اتصال + خطاهای هر نماد) ─────────────────
-    with open(out_dir / "debug.log", "w", encoding="utf-8") as f:
+    # نکته: نام فایل عمداً .txt است نه .log چون .gitignore الگوی *.log را نادیده می‌گیرد
+    with open(out_dir / "debug_info.txt", "w", encoding="utf-8") as f:
         f.write(f"اجرا در: {datetime.now(timezone.utc).isoformat()}\n")
         f.write(f"تعداد رکورد لاگ: {len(DEBUG_LOG)}\n")
         f.write("=" * 60 + "\n")
