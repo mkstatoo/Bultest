@@ -1,5 +1,7 @@
-اجرا در: 2026-09-03T22:25:40.875441+00:00
-تعداد رکورد لاگ: 2
+اجرا در: 2026-09-03T22:26:43.769105+00:00
+تعداد رکورد لاگ: 4
 ============================================================
-[ping BINANCE_BASE] status=200
-[exchangeInfo via https://api.binance.com/api/v3] status=200 body={"timezone":"UTC","serverTime":1788474338102,"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNu
+[ping BINANCE_BASE] status=451
+[ping BINANCE_MIRROR] status=200
+[exchangeInfo via https://data-api.binance.vision/api/v3] status=200 body={"timezone":"UTC","serverTime":1788474391579,"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNu
+MATICUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
