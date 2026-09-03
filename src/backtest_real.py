@@ -26,7 +26,10 @@ import numpy as np
 logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(message)s", datefmt="%H:%M:%S")
 log = logging.getLogger(__name__)
 
-BINANCE_BASE = "https://api.binance.com/api/v3"
+BINANCE_BASE   = "https://api.binance.com/api/v3"
+BINANCE_MIRROR = "https://data-api.binance.vision/api/v3"  # بدون محدودیت جغرافیایی 451
+
+_active_base = {"url": BINANCE_BASE}  # mutable holder برای سوئیچ در زمان اجرا
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  Top 200 — همان لیست bull_hunter_v2.py
@@ -69,10 +72,17 @@ def fetch_klines(symbol: str, interval: str, start_ms: int, end_ms: int,
     cur = start_ms
     while cur < end_ms:
         try:
-            r = session.get(f"{BINANCE_BASE}/klines", params={
+            r = session.get(f"{_active_base['url']}/klines", params={
                 "symbol": symbol, "interval": interval,
                 "startTime": cur, "endTime": end_ms, "limit": 1000,
             }, timeout=15)
+            if r.status_code == 451 and _active_base["url"] == BINANCE_BASE:
+                # سوئیچ خودکار به mirror بدون محدودیت جغرافیایی
+                msg = f"{symbol}: HTTP 451 از Binance اصلی — سوئیچ به mirror"
+                log.warning(f"  {msg}")
+                DEBUG_LOG.append(msg)
+                _active_base["url"] = BINANCE_MIRROR
+                continue
             if r.status_code != 200:
                 msg = f"{symbol}: HTTP {r.status_code} — {r.text[:200]}"
                 log.warning(f"  {msg}")
@@ -301,17 +311,20 @@ def main():
     session = requests.Session()
     session.headers.update({"Accept": "application/json"})
 
-    # ── تست اتصال اولیه به Binance (برای عیب‌یابی مسدود بودن IP) ─────────────
+    # ── تست اتصال اولیه — بررسی هر دو endpoint و انتخاب یکی که کار می‌کند ────
     try:
-        ping = session.get(f"{BINANCE_BASE}/ping", timeout=10)
-        DEBUG_LOG.append(f"[ping] status={ping.status_code} body={ping.text[:150]}")
-        server_time = session.get(f"{BINANCE_BASE}/time", timeout=10)
-        DEBUG_LOG.append(f"[time] status={server_time.status_code} body={server_time.text[:150]}")
-        exch_info = session.get(f"{BINANCE_BASE}/exchangeInfo", params={"symbol": "BTCUSDT"}, timeout=10)
-        DEBUG_LOG.append(f"[exchangeInfo BTCUSDT] status={exch_info.status_code} body={exch_info.text[:300]}")
+        ping_main = session.get(f"{BINANCE_BASE}/ping", timeout=10)
+        DEBUG_LOG.append(f"[ping BINANCE_BASE] status={ping_main.status_code}")
+        if ping_main.status_code == 451:
+            _active_base["url"] = BINANCE_MIRROR
+            ping_mirror = session.get(f"{BINANCE_MIRROR}/ping", timeout=10)
+            DEBUG_LOG.append(f"[ping BINANCE_MIRROR] status={ping_mirror.status_code}")
+            log.warning(f"  Binance اصلی مسدود است (451) — سوئیچ به mirror: {BINANCE_MIRROR}")
+        exch_info = session.get(f"{_active_base['url']}/exchangeInfo", params={"symbol": "BTCUSDT"}, timeout=10)
+        DEBUG_LOG.append(f"[exchangeInfo via {_active_base['url']}] status={exch_info.status_code} body={exch_info.text[:200]}")
     except Exception as e:
         DEBUG_LOG.append(f"[connectivity test] {type(e).__name__}: {e}")
-    log.info(f"تست اتصال Binance: {DEBUG_LOG[-3:] if len(DEBUG_LOG)>=3 else DEBUG_LOG}")
+    log.info(f"منبع داده فعال: {_active_base['url']}")
 
     all_results = []
     for idx, sym in enumerate(symbols, 1):
@@ -345,6 +358,7 @@ def main():
 
     summary = {
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "data_source_used": _active_base["url"],
         "config": cfg,
         "period_days": args.days,
         "interval": args.interval,
