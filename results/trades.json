@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "symbol": "ARBUSDT",
+    "entry_time": "2026-09-03 12:10:00",
+    "exit_time": "2026-09-03 22:25:00",
+    "entry": 0.1374,
+    "exit": 0.1399,
+    "pnl_pct": 1.82,
+    "pnl_usdt": 0.91,
+    "reason": "End of Data (still open)",
+    "duration_min": 615.0
+  }
+]
