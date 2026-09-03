@@ -60,6 +60,8 @@ TOP200 = [
 # ══════════════════════════════════════════════════════════════════════════════
 #  دریافت داده واقعی از Binance با pagination
 # ══════════════════════════════════════════════════════════════════════════════
+DEBUG_LOG = []
+
 def fetch_klines(symbol: str, interval: str, start_ms: int, end_ms: int,
                   session: requests.Session) -> list:
     """دریافت همه کندل‌های واقعی بین دو زمان، با pagination خودکار (حداکثر 1000 در هر درخواست)"""
@@ -72,7 +74,9 @@ def fetch_klines(symbol: str, interval: str, start_ms: int, end_ms: int,
                 "startTime": cur, "endTime": end_ms, "limit": 1000,
             }, timeout=15)
             if r.status_code != 200:
-                log.warning(f"  {symbol}: HTTP {r.status_code} — {r.text[:120]}")
+                msg = f"{symbol}: HTTP {r.status_code} — {r.text[:200]}"
+                log.warning(f"  {msg}")
+                DEBUG_LOG.append(msg)
                 break
             batch = r.json()
             if not batch:
@@ -86,8 +90,12 @@ def fetch_klines(symbol: str, interval: str, start_ms: int, end_ms: int,
                 break
             time.sleep(0.05)  # احترام به rate limit
         except Exception as e:
-            log.warning(f"  {symbol}: خطا در دریافت — {e}")
+            msg = f"{symbol}: خطا در دریافت — {type(e).__name__}: {e}"
+            log.warning(f"  {msg}")
+            DEBUG_LOG.append(msg)
             break
+    if not all_klines:
+        DEBUG_LOG.append(f"{symbol}: هیچ کندلی دریافت نشد (all_klines خالی ماند)")
     return all_klines
 
 
@@ -293,6 +301,18 @@ def main():
     session = requests.Session()
     session.headers.update({"Accept": "application/json"})
 
+    # ── تست اتصال اولیه به Binance (برای عیب‌یابی مسدود بودن IP) ─────────────
+    try:
+        ping = session.get(f"{BINANCE_BASE}/ping", timeout=10)
+        DEBUG_LOG.append(f"[ping] status={ping.status_code} body={ping.text[:150]}")
+        server_time = session.get(f"{BINANCE_BASE}/time", timeout=10)
+        DEBUG_LOG.append(f"[time] status={server_time.status_code} body={server_time.text[:150]}")
+        exch_info = session.get(f"{BINANCE_BASE}/exchangeInfo", params={"symbol": "BTCUSDT"}, timeout=10)
+        DEBUG_LOG.append(f"[exchangeInfo BTCUSDT] status={exch_info.status_code} body={exch_info.text[:300]}")
+    except Exception as e:
+        DEBUG_LOG.append(f"[connectivity test] {type(e).__name__}: {e}")
+    log.info(f"تست اتصال Binance: {DEBUG_LOG[-3:] if len(DEBUG_LOG)>=3 else DEBUG_LOG}")
+
     all_results = []
     for idx, sym in enumerate(symbols, 1):
         log.info(f"[{idx}/{len(symbols)}] دریافت داده واقعی {sym}...")
@@ -375,6 +395,13 @@ def main():
 
     with open(out_dir / "report.md", "w", encoding="utf-8") as f:
         f.write("\n".join(md))
+
+    # ── ذخیره لاگ عیب‌یابی (شامل تست اتصال + خطاهای هر نماد) ─────────────────
+    with open(out_dir / "debug.log", "w", encoding="utf-8") as f:
+        f.write(f"اجرا در: {datetime.now(timezone.utc).isoformat()}\n")
+        f.write(f"تعداد رکورد لاگ: {len(DEBUG_LOG)}\n")
+        f.write("=" * 60 + "\n")
+        f.write("\n".join(DEBUG_LOG))
 
     log.info("=" * 60)
     log.info(f"✅ بک‌تست تمام شد — {summary['total_trades']} معامله | "
