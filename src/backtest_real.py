@@ -351,6 +351,53 @@ def build_cfg(min_change, volume_mult, min_tests, cooldown_candles, trade_usdt,
     }
 
 
+def apply_portfolio_capacity(all_trades: list, max_open_trades: int, trade_usdt: float) -> dict:
+    """
+    شبیه‌سازی محدودیت واقعی MAX_OPEN_TRADES در سطح کل پورتفولیو (نه فقط هر نماد جدا).
+    معاملات به ترتیب زمان ورود پردازش می‌شوند؛ اگر در لحظه ورود، تعداد معاملات باز
+    از max_open_trades بیشتر/مساوی باشد، آن سیگنال رد می‌شود — دقیقاً مطابق رفتار واقعی ربات.
+    """
+    from datetime import datetime as _dt
+    trades = sorted(all_trades, key=lambda t: t["entry_time"])
+    open_exits = []   # لیست (exit_time, trade)
+    accepted, rejected = [], 0
+
+    def to_dt(s):
+        return _dt.strptime(s, "%Y-%m-%d %H:%M:%S")
+
+    pending_idx = 0
+    while pending_idx < len(trades) or open_exits:
+        next_entry = to_dt(trades[pending_idx]["entry_time"]) if pending_idx < len(trades) else None
+        next_exit  = min(open_exits, key=lambda x: x[0])[0] if open_exits else None
+        if next_exit is not None and (next_entry is None or next_exit <= next_entry):
+            open_exits.sort(key=lambda x: x[0])
+            open_exits.pop(0)
+        else:
+            t = trades[pending_idx]; pending_idx += 1
+            if len(open_exits) < max_open_trades:
+                open_exits.append((to_dt(t["exit_time"]), t))
+                accepted.append(t)
+            else:
+                rejected += 1
+
+    wins = [t for t in accepted if t["pnl_pct"] >= 0]
+    losses = [t for t in accepted if t["pnl_pct"] < 0]
+    pnl = sum(t["pnl_usdt"] for t in accepted)
+    wr = len(wins) / len(accepted) * 100 if accepted else 0
+    gp = sum(t["pnl_usdt"] for t in wins)
+    gl = abs(sum(t["pnl_usdt"] for t in losses))
+    pf = gp / gl if gl > 0 else (float("inf") if gp > 0 else 0)
+    return {
+        "max_open_trades": max_open_trades,
+        "max_capital_required_usdt": round(max_open_trades * trade_usdt, 2),
+        "accepted_trades": len(accepted), "rejected_no_capacity": rejected,
+        "wins": len(wins), "losses": len(losses),
+        "win_rate_pct": round(wr, 2), "total_pnl_usdt": round(pnl, 3),
+        "profit_factor": round(pf, 3) if pf != float("inf") else "inf",
+        "trades": accepted,
+    }
+
+
 def run_backtest_on_cache(cached_dfs: dict, cfg: dict) -> dict:
     """اجرای backtest_symbol روی داده‌های از‌قبل واکشی‌شده — بدون درخواست شبکه جدید"""
     all_results = [backtest_symbol(sym, df, cfg) for sym, df in cached_dfs.items()]
@@ -372,6 +419,7 @@ def run_backtest_on_cache(cached_dfs: dict, cfg: dict) -> dict:
         "total_trades": len(all_trades), "wins": len(wins), "losses": len(losses),
         "win_rate_pct": round(win_rate, 2), "total_pnl_usdt": round(total_pnl_usdt, 3),
         "profit_factor": round(profit_factor, 3) if profit_factor != float("inf") else "inf",
+        "note": "⚠️ این نتیجه فرض می‌کند ظرفیت نامحدود معاملات هم‌زمان وجود دارد — برای عدد واقعی با محدودیت MAX_OPEN_TRADES از apply_portfolio_capacity استفاده کنید",
     }
 
 
@@ -470,6 +518,9 @@ def main():
     ap.add_argument("--cache-path", type=str, default=None,
                      help="مسیر فایل کش داده خام (csv.gz). اگر موجود باشد، به‌جای دریافت از Binance از آن خوانده می‌شود؛ "
                           "اگر موجود نباشد، بعد از دریافت زنده، همان‌جا ذخیره می‌شود تا دفعه بعد نیازی به fetch نباشد.")
+    ap.add_argument("--max-open-trades", type=int, default=None,
+                     help="اگر مشخص شود، یک گزارش اضافی با محدودیت واقعی تعداد معاملات هم‌زمان پورتفولیو تولید می‌شود "
+                          "(مطابق Config.MAX_OPEN_TRADES در ربات واقعی) — نتیجه در results/portfolio_summary.json ذخیره می‌شود")
     args = ap.parse_args()
 
     interval_minutes = {"1m": 1, "3m": 3, "5m": 5, "15m": 15, "30m": 30, "1h": 60}
@@ -551,6 +602,15 @@ def main():
         res = run_backtest_on_cache(cached_dfs, cfg)
         summary = summary_from_result(res, args, symbols, len(cached_dfs))
         write_report(out_dir, summary, res["trades"])
+
+        # ── گزارش اضافی با محدودیت واقعی معاملات هم‌زمان پورتفولیو (اختیاری) ──
+        if args.max_open_trades:
+            port = apply_portfolio_capacity(res["trades"], args.max_open_trades, args.trade_usdt)
+            with open(out_dir / "portfolio_summary.json", "w", encoding="utf-8") as f:
+                json.dump(port, f, ensure_ascii=False, indent=2, default=str)
+            log.info(f"📊 با محدودیت MAX_OPEN_TRADES={args.max_open_trades}: "
+                     f"{port['accepted_trades']} پذیرفته / {port['rejected_no_capacity']} رد به‌دلیل ظرفیت | "
+                     f"PnL ${port['total_pnl_usdt']:+.2f} | سرمایه لازم ${port['max_capital_required_usdt']:,.0f}")
 
         with open(out_dir / "debug_info.txt", "w", encoding="utf-8") as f:
             f.write(f"اجرا در: {datetime.now(timezone.utc).isoformat()}\n")
