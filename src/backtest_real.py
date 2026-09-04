@@ -222,6 +222,10 @@ def compute_indicators(df: pd.DataFrame, vwap_window: int) -> pd.DataFrame:
     df["change_2candle"] = df["close"].pct_change(periods=2) * 100
     bb_std = df["close"].rolling(20).std()
     df["atr_squeeze"] = df["atr10"] > (2 * bb_std * 0.8)
+    # T9 — فاصله از سقف ۲۴ساعته (یافته تحلیل ۵۷۵ معامله واقعی: دورافتادگی زیاد از سقف = نرخ زیان بالاتر)
+    day_window = vwap_window  # همان پنجره ~۱ روزه محاسبه‌شده در main() بر اساس تایم‌فریم
+    df["high_24h"] = df["high"].rolling(day_window).max()
+    df["dist_from_24h_high_pct"] = (df["close"] - df["high_24h"]) / df["high_24h"] * 100
     return df
 
 
@@ -291,9 +295,19 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
         t7 = row["ema20"] > row["ema50"]
         t8 = bool(row["atr_squeeze"])
 
+        # T9 — فیلتر فاصله از سقف ۲۴ساعته (اختیاری — فقط اگر در cfg فعال شده باشد)
+        t9_enabled = cfg.get("t9_max_dist_pct") is not None
+        if t9_enabled:
+            dist = row.get("dist_from_24h_high_pct", np.nan)
+            t9 = (not pd.isna(dist)) and (dist > cfg["t9_max_dist_pct"])
+        else:
+            t9 = True  # غیرفعال — در شمارش passed دخالت داده نمی‌شود
+
         tests = {"t1": t1, "t2": t2, "t3": t3, "t4": t4, "t5": t5, "t6": t6, "t7": t7, "t8": t8}
+        if t9_enabled:
+            tests["t9"] = t9   # فقط وقتی فعال است در شمارش/گزارش تست‌ها لحاظ می‌شود
         passed = sum(tests.values())
-        confirmed = passed >= cfg["min_tests"] and t6
+        confirmed = passed >= cfg["min_tests"] and t6 and t9
 
         signals.append({"time": str(row["dt"]), "price": float(row["close"]),
                         "change_pct": round(float(chg), 3), "tests_passed": passed, "confirmed": confirmed})
@@ -325,13 +339,15 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
 #  اجرای اصلی
 # ══════════════════════════════════════════════════════════════════════════════
 def build_cfg(min_change, volume_mult, min_tests, cooldown_candles, trade_usdt,
-              rsi_min=45, rsi_max=70, atr_mult=3.0, trail_activate_pct=10.0, hard_stop_pct=5.0):
+              rsi_min=45, rsi_max=70, atr_mult=3.0, trail_activate_pct=10.0, hard_stop_pct=5.0,
+              t9_max_dist_pct=None):
     return {
         "min_change_pct": min_change, "volume_mult": volume_mult,
         "rsi_min": rsi_min, "rsi_max": rsi_max, "min_tests": min_tests,
         "atr_mult": atr_mult, "trail_activate_pct": trail_activate_pct,
         "hard_stop_pct": hard_stop_pct, "trade_usdt": trade_usdt,
         "cooldown_candles": cooldown_candles,
+        "t9_max_dist_pct": t9_max_dist_pct,  # None = تست T9 غیرفعال (سازگار با نسخه قبلی)
     }
 
 
