@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-04T00:34:01.165924+00:00",
+  "generated_at_utc": "2026-09-04T01:48:27.446465+00:00",
   "grid_tested": {
     "min_change_pct": [
       0.5,
@@ -24,66 +24,77 @@
       "volume_mult": 2.0,
       "min_tests": 5,
       "total_trades": 575,
-      "wins": 292,
-      "losses": 283,
-      "win_rate_pct": 50.78,
-      "total_pnl_usdt": 693.954,
-      "profit_factor": 1.921
+      "wins": 296,
+      "losses": 279,
+      "win_rate_pct": 51.48,
+      "total_pnl_usdt": 727.813,
+      "profit_factor": 1.982
+    },
+    {
+      "min_change_pct": 1.0,
+      "volume_mult": 3.0,
+      "min_tests": 5,
+      "total_trades": 577,
+      "wins": 299,
+      "losses": 278,
+      "win_rate_pct": 51.82,
+      "total_pnl_usdt": 714.751,
+      "profit_factor": 1.97
     },
     {
       "min_change_pct": 1.0,
       "volume_mult": 2.0,
       "min_tests": 6,
-      "total_trades": 560,
-      "wins": 288,
-      "losses": 272,
-      "win_rate_pct": 51.43,
-      "total_pnl_usdt": 673.882,
-      "profit_factor": 1.939
-    },
-    {
-      "min_change_pct": 1.0,
-      "volume_mult": 3.0,
-      "min_tests": 5,
-      "total_trades": 575,
-      "wins": 292,
-      "losses": 283,
-      "win_rate_pct": 50.78,
-      "total_pnl_usdt": 665.699,
-      "profit_factor": 1.885
+      "total_trades": 561,
+      "wins": 290,
+      "losses": 271,
+      "win_rate_pct": 51.69,
+      "total_pnl_usdt": 697.184,
+      "profit_factor": 1.981
     },
     {
       "min_change_pct": 1.0,
       "volume_mult": 5.0,
       "min_tests": 5,
-      "total_trades": 573,
-      "wins": 286,
-      "losses": 287,
-      "win_rate_pct": 49.91,
-      "total_pnl_usdt": 639.578,
-      "profit_factor": 1.842
-    },
-    {
-      "min_change_pct": 1.0,
-      "volume_mult": 3.0,
-      "min_tests": 6,
-      "total_trades": 547,
-      "wins": 273,
-      "losses": 274,
-      "win_rate_pct": 49.91,
-      "total_pnl_usdt": 629.979,
-      "profit_factor": 1.884
+      "total_trades": 575,
+      "wins": 292,
+      "losses": 283,
+      "win_rate_pct": 50.78,
+      "total_pnl_usdt": 685.335,
+      "profit_factor": 1.921
     },
     {
       "min_change_pct": 0.5,
       "volume_mult": 2.0,
       "min_tests": 5,
       "total_trades": 630,
-      "wins": 306,
-      "losses": 324,
-      "win_rate_pct": 48.57,
-      "total_pnl_usdt": 624.043,
-      "profit_factor": 1.718
+      "wins": 309,
+      "losses": 321,
+      "win_rate_pct": 49.05,
+      "total_pnl_usdt": 657.476,
+      "profit_factor": 1.761
+    },
+    {
+      "min_change_pct": 1.0,
+      "volume_mult": 3.0,
+      "min_tests": 6,
+      "total_trades": 546,
+      "wins": 275,
+      "losses": 271,
+      "win_rate_pct": 50.37,
+      "total_pnl_usdt": 655.19,
+      "profit_factor": 1.928
+    },
+    {
+      "min_change_pct": 0.5,
+      "volume_mult": 2.0,
+      "min_tests": 6,
+      "total_trades": 619,
+      "wins": 304,
+      "losses": 315,
+      "win_rate_pct": 49.11,
+      "total_pnl_usdt": 651.671,
+      "profit_factor": 1.792
     },
     {
       "min_change_pct": 1.5,
@@ -93,228 +104,217 @@
       "wins": 241,
       "losses": 234,
       "win_rate_pct": 50.74,
-      "total_pnl_usdt": 619.078,
-      "profit_factor": 2.016
+      "total_pnl_usdt": 626.331,
+      "profit_factor": 2.026
+    },
+    {
+      "min_change_pct": 0.5,
+      "volume_mult": 3.0,
+      "min_tests": 6,
+      "total_trades": 613,
+      "wins": 303,
+      "losses": 310,
+      "win_rate_pct": 49.43,
+      "total_pnl_usdt": 618.186,
+      "profit_factor": 1.762
     },
     {
       "min_change_pct": 1.0,
       "volume_mult": 5.0,
       "min_tests": 6,
-      "total_trades": 503,
+      "total_trades": 502,
       "wins": 251,
-      "losses": 252,
-      "win_rate_pct": 49.9,
-      "total_pnl_usdt": 609.761,
-      "profit_factor": 1.931
+      "losses": 251,
+      "win_rate_pct": 50.0,
+      "total_pnl_usdt": 615.353,
+      "profit_factor": 1.944
+    },
+    {
+      "min_change_pct": 0.5,
+      "volume_mult": 5.0,
+      "min_tests": 5,
+      "total_trades": 629,
+      "wins": 304,
+      "losses": 325,
+      "win_rate_pct": 48.33,
+      "total_pnl_usdt": 607.982,
+      "profit_factor": 1.701
     },
     {
       "min_change_pct": 0.5,
       "volume_mult": 5.0,
       "min_tests": 6,
       "total_trades": 592,
-      "wins": 301,
-      "losses": 291,
-      "win_rate_pct": 50.84,
-      "total_pnl_usdt": 607.603,
-      "profit_factor": 1.788
-    },
-    {
-      "min_change_pct": 0.5,
-      "volume_mult": 2.0,
-      "min_tests": 6,
-      "total_trades": 620,
-      "wins": 302,
-      "losses": 318,
-      "win_rate_pct": 48.71,
-      "total_pnl_usdt": 598.19,
-      "profit_factor": 1.713
+      "wins": 295,
+      "losses": 297,
+      "win_rate_pct": 49.83,
+      "total_pnl_usdt": 600.288,
+      "profit_factor": 1.773
     },
     {
       "min_change_pct": 1.5,
       "volume_mult": 2.0,
       "min_tests": 5,
-      "total_trades": 486,
+      "total_trades": 487,
       "wins": 244,
-      "losses": 242,
-      "win_rate_pct": 50.21,
-      "total_pnl_usdt": 586.493,
-      "profit_factor": 1.916
+      "losses": 243,
+      "win_rate_pct": 50.1,
+      "total_pnl_usdt": 583.883,
+      "profit_factor": 1.908
     },
     {
       "min_change_pct": 1.5,
       "volume_mult": 3.0,
       "min_tests": 5,
       "total_trades": 483,
-      "wins": 240,
-      "losses": 243,
-      "win_rate_pct": 49.69,
-      "total_pnl_usdt": 580.139,
-      "profit_factor": 1.913
-    },
-    {
-      "min_change_pct": 0.5,
-      "volume_mult": 3.0,
-      "min_tests": 6,
-      "total_trades": 614,
-      "wins": 304,
-      "losses": 310,
-      "win_rate_pct": 49.51,
-      "total_pnl_usdt": 578.49,
-      "profit_factor": 1.705
+      "wins": 239,
+      "losses": 244,
+      "win_rate_pct": 49.48,
+      "total_pnl_usdt": 575.798,
+      "profit_factor": 1.902
     },
     {
       "min_change_pct": 1.5,
       "volume_mult": 2.0,
       "min_tests": 6,
-      "total_trades": 450,
-      "wins": 227,
+      "total_trades": 451,
+      "wins": 228,
       "losses": 223,
-      "win_rate_pct": 50.44,
-      "total_pnl_usdt": 553.371,
-      "profit_factor": 1.957
+      "win_rate_pct": 50.55,
+      "total_pnl_usdt": 573.457,
+      "profit_factor": 1.993
     },
     {
       "min_change_pct": 0.5,
-      "volume_mult": 5.0,
+      "volume_mult": 3.0,
       "min_tests": 5,
       "total_trades": 629,
-      "wins": 298,
-      "losses": 331,
-      "win_rate_pct": 47.38,
-      "total_pnl_usdt": 552.08,
-      "profit_factor": 1.624
+      "wins": 297,
+      "losses": 332,
+      "win_rate_pct": 47.22,
+      "total_pnl_usdt": 571.197,
+      "profit_factor": 1.641
     },
     {
       "min_change_pct": 1.5,
       "volume_mult": 3.0,
       "min_tests": 6,
       "total_trades": 437,
-      "wins": 217,
-      "losses": 220,
-      "win_rate_pct": 49.66,
-      "total_pnl_usdt": 537.047,
-      "profit_factor": 1.951
-    },
-    {
-      "min_change_pct": 0.5,
-      "volume_mult": 3.0,
-      "min_tests": 5,
-      "total_trades": 629,
-      "wins": 294,
-      "losses": 335,
-      "win_rate_pct": 46.74,
-      "total_pnl_usdt": 531.474,
-      "profit_factor": 1.591
+      "wins": 221,
+      "losses": 216,
+      "win_rate_pct": 50.57,
+      "total_pnl_usdt": 564.333,
+      "profit_factor": 2.009
     },
     {
       "min_change_pct": 1.5,
       "volume_mult": 5.0,
       "min_tests": 6,
-      "total_trades": 410,
-      "wins": 207,
-      "losses": 203,
-      "win_rate_pct": 50.49,
-      "total_pnl_usdt": 518.049,
-      "profit_factor": 1.985
+      "total_trades": 409,
+      "wins": 212,
+      "losses": 197,
+      "win_rate_pct": 51.83,
+      "total_pnl_usdt": 555.834,
+      "profit_factor": 2.081
     },
     {
       "min_change_pct": 0.5,
       "volume_mult": 2.0,
       "min_tests": 7,
-      "total_trades": 404,
-      "wins": 198,
-      "losses": 206,
-      "win_rate_pct": 49.01,
-      "total_pnl_usdt": 471.217,
-      "profit_factor": 1.856
+      "total_trades": 402,
+      "wins": 199,
+      "losses": 203,
+      "win_rate_pct": 49.5,
+      "total_pnl_usdt": 500.289,
+      "profit_factor": 1.927
     },
     {
       "min_change_pct": 0.5,
       "volume_mult": 3.0,
       "min_tests": 7,
       "total_trades": 347,
-      "wins": 176,
-      "losses": 171,
-      "win_rate_pct": 50.72,
-      "total_pnl_usdt": 388.679,
-      "profit_factor": 1.852
+      "wins": 177,
+      "losses": 170,
+      "win_rate_pct": 51.01,
+      "total_pnl_usdt": 416.254,
+      "profit_factor": 1.929
     },
     {
       "min_change_pct": 0.5,
       "volume_mult": 5.0,
       "min_tests": 7,
-      "total_trades": 289,
-      "wins": 143,
-      "losses": 146,
-      "win_rate_pct": 49.48,
-      "total_pnl_usdt": 273.756,
-      "profit_factor": 1.691
+      "total_trades": 290,
+      "wins": 142,
+      "losses": 148,
+      "win_rate_pct": 48.97,
+      "total_pnl_usdt": 289.353,
+      "profit_factor": 1.734
     },
     {
       "min_change_pct": 1.0,
       "volume_mult": 2.0,
       "min_tests": 7,
       "total_trades": 245,
-      "wins": 111,
-      "losses": 134,
-      "win_rate_pct": 45.31,
-      "total_pnl_usdt": 261.291,
-      "profit_factor": 1.719
+      "wins": 113,
+      "losses": 132,
+      "win_rate_pct": 46.12,
+      "total_pnl_usdt": 288.088,
+      "profit_factor": 1.816
     },
     {
       "min_change_pct": 1.5,
       "volume_mult": 2.0,
       "min_tests": 7,
-      "total_trades": 140,
+      "total_trades": 141,
       "wins": 65,
-      "losses": 75,
-      "win_rate_pct": 46.43,
-      "total_pnl_usdt": 228.219,
-      "profit_factor": 2.076
+      "losses": 76,
+      "win_rate_pct": 46.1,
+      "total_pnl_usdt": 233.741,
+      "profit_factor": 2.106
     },
     {
       "min_change_pct": 1.0,
       "volume_mult": 3.0,
       "min_tests": 7,
-      "total_trades": 198,
-      "wins": 94,
-      "losses": 104,
-      "win_rate_pct": 47.47,
-      "total_pnl_usdt": 184.714,
-      "profit_factor": 1.651
+      "total_trades": 199,
+      "wins": 96,
+      "losses": 103,
+      "win_rate_pct": 48.24,
+      "total_pnl_usdt": 199.854,
+      "profit_factor": 1.716
     },
     {
       "min_change_pct": 1.5,
       "volume_mult": 3.0,
       "min_tests": 7,
-      "total_trades": 109,
+      "total_trades": 110,
       "wins": 54,
-      "losses": 55,
-      "win_rate_pct": 49.54,
-      "total_pnl_usdt": 151.501,
-      "profit_factor": 1.962
+      "losses": 56,
+      "win_rate_pct": 49.09,
+      "total_pnl_usdt": 149.164,
+      "profit_factor": 1.931
     },
     {
       "min_change_pct": 1.0,
       "volume_mult": 5.0,
       "min_tests": 7,
-      "total_trades": 148,
-      "wins": 61,
-      "losses": 87,
-      "win_rate_pct": 41.22,
-      "total_pnl_usdt": 45.887,
-      "profit_factor": 1.189
+      "total_trades": 149,
+      "wins": 63,
+      "losses": 86,
+      "win_rate_pct": 42.28,
+      "total_pnl_usdt": 61.325,
+      "profit_factor": 1.256
     },
     {
       "min_change_pct": 1.5,
       "volume_mult": 5.0,
       "min_tests": 7,
-      "total_trades": 78,
+      "total_trades": 79,
       "wins": 30,
-      "losses": 48,
-      "win_rate_pct": 38.46,
-      "total_pnl_usdt": 13.952,
-      "profit_factor": 1.097
+      "losses": 49,
+      "win_rate_pct": 37.97,
+      "total_pnl_usdt": 12.634,
+      "profit_factor": 1.086
     }
   ],
   "best_combo": {
@@ -322,19 +322,19 @@
     "volume_mult": 2.0,
     "min_tests": 5,
     "total_trades": 575,
-    "wins": 292,
-    "losses": 283,
-    "win_rate_pct": 50.78,
-    "total_pnl_usdt": 693.954,
-    "profit_factor": 1.921
+    "wins": 296,
+    "losses": 279,
+    "win_rate_pct": 51.48,
+    "total_pnl_usdt": 727.813,
+    "profit_factor": 1.982
   },
   "default_v2_combo": {
     "min_change_pct": 1.5,
     "volume_mult": 5.0,
     "min_tests": 7,
-    "total_trades": 78,
-    "total_pnl_usdt": 13.952,
-    "win_rate_pct": 38.46
+    "total_trades": 79,
+    "total_pnl_usdt": 12.634,
+    "win_rate_pct": 37.97
   },
   "overfitting_warning": "این پارامترها روی یک بازه تاریخی مشخص بهینه شده‌اند. ترکیبی که در این بازه بهترین بوده، لزوماً در آینده بهترین نخواهد بود (ریسک overfitting/data-snooping). پیشنهاد: این پارامترها را روی یک بازه زمانی دیگر (out-of-sample) هم تست کنید قبل از استفاده واقعی."
 }

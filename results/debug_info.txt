@@ -1,9 +1,9 @@
-اجرا در: 2026-09-04T00:34:01.166568+00:00
-تعداد رکورد لاگ: 16
+اجرا در: 2026-09-04T01:48:27.447097+00:00
+تعداد رکورد لاگ: 17
 ============================================================
 [ping BINANCE_BASE] status=451
 [ping BINANCE_MIRROR] status=200
-[exchangeInfo via https://data-api.binance.vision/api/v3] status=200 body={"timezone":"UTC","serverTime":1788479430443,"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNu
+[exchangeInfo via https://data-api.binance.vision/api/v3] status=200 body={"timezone":"UTC","serverTime":1788482640824,"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNu
 [fetch_top_symbols] 200 نماد واقعی از 678 کاندیدا انتخاب شد (بر اساس حجم واقعی)
 TONUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
 NFPUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
@@ -17,3 +17,4 @@ TOMOUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
 MATICUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
 TVKUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
 EOSUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
+[cache] ذخیره‌شده در data_cache/klines_5m_30d.csv.gz برای استفاده مجدد بدون fetch

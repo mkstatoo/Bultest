@@ -46,13 +46,13 @@
   {
     "symbol": "ARBUSDT",
     "entry_time": "2026-09-03 12:10:00",
-    "exit_time": "2026-09-03 23:50:00",
+    "exit_time": "2026-09-04 00:40:00",
     "entry": 0.1374,
-    "exit": 0.1403,
-    "pnl_pct": 2.111,
-    "pnl_usdt": 1.055,
+    "exit": 0.1431,
+    "pnl_pct": 4.148,
+    "pnl_usdt": 2.074,
     "reason": "End of Data (still open)",
-    "duration_min": 700.0
+    "duration_min": 750.0
   },
   {
     "symbol": "HEMIUSDT",
@@ -134,24 +134,24 @@
   {
     "symbol": "SNDKBUSDT",
     "entry_time": "2026-08-28 13:35:00",
-    "exit_time": "2026-09-03 23:50:00",
+    "exit_time": "2026-09-04 00:40:00",
     "entry": 1483.45,
-    "exit": 1548.83,
-    "pnl_pct": 4.407,
-    "pnl_usdt": 2.204,
+    "exit": 1559.11,
+    "pnl_pct": 5.1,
+    "pnl_usdt": 2.55,
     "reason": "End of Data (still open)",
-    "duration_min": 9255.0
+    "duration_min": 9305.0
   },
   {
     "symbol": "MUBARAKUSDT",
-    "entry_time": "2026-08-10 00:30:00",
-    "exit_time": "2026-08-10 01:45:00",
-    "entry": 0.02659,
-    "exit": 0.02693,
-    "pnl_pct": 1.279,
-    "pnl_usdt": 0.639,
-    "reason": "ATR Trail",
-    "duration_min": 75.0
+    "entry_time": "2026-08-12 14:05:00",
+    "exit_time": "2026-08-13 11:35:00",
+    "entry": 0.01819,
+    "exit": 0.01728,
+    "pnl_pct": -5.003,
+    "pnl_usdt": -2.501,
+    "reason": "Hard Stop",
+    "duration_min": 1290.0
   },
   {
     "symbol": "MUBARAKUSDT",
@@ -187,17 +187,6 @@
     "duration_min": 1360.0
   },
   {
-    "symbol": "ASTERUSDT",
-    "entry_time": "2026-08-21 07:45:00",
-    "exit_time": "2026-08-22 03:15:00",
-    "entry": 0.69,
-    "exit": 0.757,
-    "pnl_pct": 9.71,
-    "pnl_usdt": 4.855,
-    "reason": "ATR Trail",
-    "duration_min": 1170.0
-  },
-  {
     "symbol": "TUTUSDT",
     "entry_time": "2026-08-10 03:05:00",
     "exit_time": "2026-08-10 04:40:00",
@@ -218,6 +207,17 @@
     "pnl_usdt": 5.441,
     "reason": "ATR Trail",
     "duration_min": 145.0
+  },
+  {
+    "symbol": "ASTERUSDT",
+    "entry_time": "2026-08-21 07:45:00",
+    "exit_time": "2026-08-22 03:15:00",
+    "entry": 0.69,
+    "exit": 0.757,
+    "pnl_pct": 9.71,
+    "pnl_usdt": 4.855,
+    "reason": "ATR Trail",
+    "duration_min": 1170.0
   },
   {
     "symbol": "FFUSDT",
@@ -264,15 +264,15 @@
     "duration_min": 180.0
   },
   {
-    "symbol": "TUSDT",
-    "entry_time": "2026-09-02 06:15:00",
-    "exit_time": "2026-09-02 07:35:00",
-    "entry": 0.00419,
-    "exit": 0.00433,
-    "pnl_pct": 3.341,
-    "pnl_usdt": 1.671,
-    "reason": "ATR Trail",
-    "duration_min": 80.0
+    "symbol": "CRVUSDT",
+    "entry_time": "2026-09-01 11:55:00",
+    "exit_time": "2026-09-04 00:40:00",
+    "entry": 0.369,
+    "exit": 0.3659,
+    "pnl_pct": -0.84,
+    "pnl_usdt": -0.42,
+    "reason": "End of Data (still open)",
+    "duration_min": 3645.0
   },
   {
     "symbol": "ONGUSDT",
@@ -286,26 +286,37 @@
     "duration_min": 585.0
   },
   {
-    "symbol": "CRVUSDT",
-    "entry_time": "2026-09-01 11:55:00",
-    "exit_time": "2026-09-03 23:50:00",
-    "entry": 0.369,
-    "exit": 0.3642,
-    "pnl_pct": -1.301,
-    "pnl_usdt": -0.65,
-    "reason": "End of Data (still open)",
-    "duration_min": 3595.0
+    "symbol": "TUSDT",
+    "entry_time": "2026-09-02 06:15:00",
+    "exit_time": "2026-09-02 07:35:00",
+    "entry": 0.00419,
+    "exit": 0.00433,
+    "pnl_pct": 3.341,
+    "pnl_usdt": 1.671,
+    "reason": "ATR Trail",
+    "duration_min": 80.0
   },
   {
     "symbol": "SKHYBUSDT",
-    "entry_time": "2026-08-10 00:10:00",
-    "exit_time": "2026-08-10 11:40:00",
-    "entry": 142.44,
-    "exit": 135.19,
-    "pnl_pct": -5.09,
-    "pnl_usdt": -2.545,
+    "entry_time": "2026-08-14 13:40:00",
+    "exit_time": "2026-08-18 09:05:00",
+    "entry": 171.1,
+    "exit": 162.06,
+    "pnl_pct": -5.283,
+    "pnl_usdt": -2.642,
     "reason": "Hard Stop",
-    "duration_min": 690.0
+    "duration_min": 5485.0
+  },
+  {
+    "symbol": "ETHFIUSDT",
+    "entry_time": "2026-08-24 02:10:00",
+    "exit_time": "2026-08-25 04:00:00",
+    "entry": 0.6285,
+    "exit": 0.5924,
+    "pnl_pct": -5.744,
+    "pnl_usdt": -2.872,
+    "reason": "Hard Stop",
+    "duration_min": 1550.0
   },
   {
     "symbol": "0GUSDT",
@@ -328,17 +339,6 @@
     "pnl_usdt": -3.812,
     "reason": "Hard Stop",
     "duration_min": 515.0
-  },
-  {
-    "symbol": "ETHFIUSDT",
-    "entry_time": "2026-08-24 02:10:00",
-    "exit_time": "2026-08-25 04:00:00",
-    "entry": 0.6285,
-    "exit": 0.5924,
-    "pnl_pct": -5.744,
-    "pnl_usdt": -2.872,
-    "reason": "Hard Stop",
-    "duration_min": 1550.0
   },
   {
     "symbol": "ACEUSDT",
@@ -420,13 +420,13 @@
   {
     "symbol": "MITOUSDT",
     "entry_time": "2026-09-03 16:10:00",
-    "exit_time": "2026-09-03 23:50:00",
+    "exit_time": "2026-09-04 00:00:00",
     "entry": 0.01793,
-    "exit": 0.01713,
-    "pnl_pct": -4.462,
-    "pnl_usdt": -2.231,
-    "reason": "End of Data (still open)",
-    "duration_min": 460.0
+    "exit": 0.017,
+    "pnl_pct": -5.187,
+    "pnl_usdt": -2.593,
+    "reason": "Hard Stop",
+    "duration_min": 470.0
   },
   {
     "symbol": "REDUSDT",
@@ -462,17 +462,6 @@
     "duration_min": 230.0
   },
   {
-    "symbol": "HOODBUSDT",
-    "entry_time": "2026-09-02 13:45:00",
-    "exit_time": "2026-09-03 23:50:00",
-    "entry": 104.54,
-    "exit": 123.86,
-    "pnl_pct": 18.481,
-    "pnl_usdt": 9.24,
-    "reason": "End of Data (still open)",
-    "duration_min": 2045.0
-  },
-  {
     "symbol": "AEROUSDT",
     "entry_time": "2026-08-20 12:15:00",
     "exit_time": "2026-08-23 04:05:00",
@@ -482,6 +471,17 @@
     "pnl_usdt": -2.561,
     "reason": "Hard Stop",
     "duration_min": 3830.0
+  },
+  {
+    "symbol": "HOODBUSDT",
+    "entry_time": "2026-09-02 13:45:00",
+    "exit_time": "2026-09-04 00:40:00",
+    "entry": 104.54,
+    "exit": 124.12,
+    "pnl_pct": 18.73,
+    "pnl_usdt": 9.365,
+    "reason": "End of Data (still open)",
+    "duration_min": 2095.0
   },
   {
     "symbol": "GPSUSDT",
@@ -517,17 +517,6 @@
     "duration_min": 260.0
   },
   {
-    "symbol": "ROBOUSDT",
-    "entry_time": "2026-08-21 14:30:00",
-    "exit_time": "2026-08-21 21:15:00",
-    "entry": 0.0171,
-    "exit": 0.01494,
-    "pnl_pct": -12.632,
-    "pnl_usdt": -6.316,
-    "reason": "Hard Stop",
-    "duration_min": 405.0
-  },
-  {
     "symbol": "STRKUSDT",
     "entry_time": "2026-08-21 11:25:00",
     "exit_time": "2026-08-22 05:05:00",
@@ -537,6 +526,17 @@
     "pnl_usdt": 3.267,
     "reason": "ATR Trail",
     "duration_min": 1060.0
+  },
+  {
+    "symbol": "ROBOUSDT",
+    "entry_time": "2026-08-21 14:30:00",
+    "exit_time": "2026-08-21 21:15:00",
+    "entry": 0.0171,
+    "exit": 0.01494,
+    "pnl_pct": -12.632,
+    "pnl_usdt": -6.316,
+    "reason": "Hard Stop",
+    "duration_min": 405.0
   },
   {
     "symbol": "BIOUSDT",
@@ -550,17 +550,6 @@
     "duration_min": 195.0
   },
   {
-    "symbol": "KITEUSDT",
-    "entry_time": "2026-09-03 07:05:00",
-    "exit_time": "2026-09-03 15:25:00",
-    "entry": 0.1419,
-    "exit": 0.1344,
-    "pnl_pct": -5.285,
-    "pnl_usdt": -2.643,
-    "reason": "Hard Stop",
-    "duration_min": 500.0
-  },
-  {
     "symbol": "VANRYUSDT",
     "entry_time": "2026-08-16 14:35:00",
     "exit_time": "2026-08-16 14:45:00",
@@ -572,15 +561,15 @@
     "duration_min": 10.0
   },
   {
-    "symbol": "BICOUSDT",
-    "entry_time": "2026-08-21 00:45:00",
-    "exit_time": "2026-08-21 05:05:00",
-    "entry": 0.01943,
-    "exit": 0.01841,
-    "pnl_pct": -5.25,
-    "pnl_usdt": -2.625,
+    "symbol": "KITEUSDT",
+    "entry_time": "2026-09-03 07:05:00",
+    "exit_time": "2026-09-03 15:25:00",
+    "entry": 0.1419,
+    "exit": 0.1344,
+    "pnl_pct": -5.285,
+    "pnl_usdt": -2.643,
     "reason": "Hard Stop",
-    "duration_min": 260.0
+    "duration_min": 500.0
   },
   {
     "symbol": "MEGAUSDT",
@@ -592,6 +581,17 @@
     "pnl_usdt": 5.394,
     "reason": "ATR Trail",
     "duration_min": 1530.0
+  },
+  {
+    "symbol": "BICOUSDT",
+    "entry_time": "2026-08-21 00:45:00",
+    "exit_time": "2026-08-21 05:05:00",
+    "entry": 0.01943,
+    "exit": 0.01841,
+    "pnl_pct": -5.25,
+    "pnl_usdt": -2.625,
+    "reason": "Hard Stop",
+    "duration_min": 260.0
   },
   {
     "symbol": "BROCCOLI714USDT",
@@ -660,6 +660,17 @@
     "duration_min": 40.0
   },
   {
+    "symbol": "HOLOUSDT",
+    "entry_time": "2026-08-25 08:00:00",
+    "exit_time": "2026-08-25 13:50:00",
+    "entry": 0.0713,
+    "exit": 0.0721,
+    "pnl_pct": 1.122,
+    "pnl_usdt": 0.561,
+    "reason": "ATR Trail",
+    "duration_min": 350.0
+  },
+  {
     "symbol": "SCRTUSDT",
     "entry_time": "2026-08-17 21:20:00",
     "exit_time": "2026-08-19 04:00:00",
@@ -682,6 +693,17 @@
     "duration_min": 1900.0
   },
   {
+    "symbol": "FORMUSDT",
+    "entry_time": "2026-08-30 04:20:00",
+    "exit_time": "2026-08-30 09:35:00",
+    "entry": 0.2555,
+    "exit": 0.2424,
+    "pnl_pct": -5.127,
+    "pnl_usdt": -2.564,
+    "reason": "Hard Stop",
+    "duration_min": 315.0
+  },
+  {
     "symbol": "RIFUSDT",
     "entry_time": "2026-08-19 15:30:00",
     "exit_time": "2026-08-20 13:15:00",
@@ -691,28 +713,6 @@
     "pnl_usdt": 5.669,
     "reason": "ATR Trail",
     "duration_min": 1305.0
-  },
-  {
-    "symbol": "EDENUSDT",
-    "entry_time": "2026-08-13 14:30:00",
-    "exit_time": "2026-08-13 20:00:00",
-    "entry": 0.04891,
-    "exit": 0.06237,
-    "pnl_pct": 27.52,
-    "pnl_usdt": 13.76,
-    "reason": "ATR Trail",
-    "duration_min": 330.0
-  },
-  {
-    "symbol": "EDENUSDT",
-    "entry_time": "2026-08-20 02:40:00",
-    "exit_time": "2026-08-20 05:10:00",
-    "entry": 0.05777,
-    "exit": 0.05484,
-    "pnl_pct": -5.072,
-    "pnl_usdt": -2.536,
-    "reason": "Hard Stop",
-    "duration_min": 150.0
   },
   {
     "symbol": "SCRUSDT",
@@ -737,15 +737,26 @@
     "duration_min": 490.0
   },
   {
-    "symbol": "FORMUSDT",
-    "entry_time": "2026-08-30 04:20:00",
-    "exit_time": "2026-08-30 09:35:00",
-    "entry": 0.2555,
-    "exit": 0.2424,
-    "pnl_pct": -5.127,
-    "pnl_usdt": -2.564,
+    "symbol": "EDENUSDT",
+    "entry_time": "2026-08-13 14:30:00",
+    "exit_time": "2026-08-13 20:00:00",
+    "entry": 0.04891,
+    "exit": 0.06237,
+    "pnl_pct": 27.52,
+    "pnl_usdt": 13.76,
+    "reason": "ATR Trail",
+    "duration_min": 330.0
+  },
+  {
+    "symbol": "EDENUSDT",
+    "entry_time": "2026-08-20 02:40:00",
+    "exit_time": "2026-08-20 05:10:00",
+    "entry": 0.05777,
+    "exit": 0.05484,
+    "pnl_pct": -5.072,
+    "pnl_usdt": -2.536,
     "reason": "Hard Stop",
-    "duration_min": 315.0
+    "duration_min": 150.0
   },
   {
     "symbol": "COTIUSDT",
@@ -757,17 +768,6 @@
     "pnl_usdt": -2.596,
     "reason": "Hard Stop",
     "duration_min": 2715.0
-  },
-  {
-    "symbol": "SCUSDT",
-    "entry_time": "2026-08-24 00:25:00",
-    "exit_time": "2026-08-24 00:50:00",
-    "entry": 0.000712,
-    "exit": 0.000675,
-    "pnl_pct": -5.197,
-    "pnl_usdt": -2.598,
-    "reason": "Hard Stop",
-    "duration_min": 25.0
   },
   {
     "symbol": "JASMYUSDT",
@@ -792,26 +792,15 @@
     "duration_min": 550.0
   },
   {
-    "symbol": "OPENUSDT",
-    "entry_time": "2026-08-11 09:30:00",
-    "exit_time": "2026-08-12 10:15:00",
-    "entry": 0.1954,
-    "exit": 0.226,
-    "pnl_pct": 15.66,
-    "pnl_usdt": 7.83,
-    "reason": "ATR Trail",
-    "duration_min": 1485.0
-  },
-  {
-    "symbol": "XVGUSDT",
-    "entry_time": "2026-09-02 17:50:00",
-    "exit_time": "2026-09-03 05:30:00",
-    "entry": 0.002677,
-    "exit": 0.002524,
-    "pnl_pct": -5.715,
-    "pnl_usdt": -2.858,
+    "symbol": "SCUSDT",
+    "entry_time": "2026-08-24 00:25:00",
+    "exit_time": "2026-08-24 00:50:00",
+    "entry": 0.000712,
+    "exit": 0.000675,
+    "pnl_pct": -5.197,
+    "pnl_usdt": -2.598,
     "reason": "Hard Stop",
-    "duration_min": 700.0
+    "duration_min": 25.0
   },
   {
     "symbol": "DGBUSDT",
@@ -823,6 +812,17 @@
     "pnl_usdt": -2.569,
     "reason": "Hard Stop",
     "duration_min": 4570.0
+  },
+  {
+    "symbol": "OPENUSDT",
+    "entry_time": "2026-08-11 09:30:00",
+    "exit_time": "2026-08-12 10:15:00",
+    "entry": 0.1954,
+    "exit": 0.226,
+    "pnl_pct": 15.66,
+    "pnl_usdt": 7.83,
+    "reason": "ATR Trail",
+    "duration_min": 1485.0
   },
   {
     "symbol": "MOVEUSDT",
@@ -856,5 +856,16 @@
     "pnl_usdt": 3.933,
     "reason": "ATR Trail",
     "duration_min": 895.0
+  },
+  {
+    "symbol": "XVGUSDT",
+    "entry_time": "2026-09-02 17:50:00",
+    "exit_time": "2026-09-03 05:30:00",
+    "entry": 0.002677,
+    "exit": 0.002524,
+    "pnl_pct": -5.715,
+    "pnl_usdt": -2.858,
+    "reason": "Hard Stop",
+    "duration_min": 700.0
   }
 ]

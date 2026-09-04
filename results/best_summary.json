@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-04T00:32:43.727643+00:00",
+  "generated_at_utc": "2026-09-04T01:46:27.259126+00:00",
   "data_source_used": "https://data-api.binance.vision/api/v3",
   "config": {
     "min_change_pct": 1.0,
@@ -17,14 +17,14 @@
   "interval": "5m",
   "symbols_tested": 200,
   "symbols_with_data": 188,
-  "total_signals": 29962,
+  "total_signals": 30066,
   "confirmed_signals": 575,
   "total_trades": 575,
-  "wins": 292,
-  "losses": 283,
-  "win_rate_pct": 50.78,
-  "total_pnl_usdt": 693.954,
-  "profit_factor": 1.921,
+  "wins": 296,
+  "losses": 279,
+  "win_rate_pct": 51.48,
+  "total_pnl_usdt": 727.813,
+  "profit_factor": 1.982,
   "capital_deployed_usdt": 28750.0,
-  "return_pct": 2.414
+  "return_pct": 2.532
 }
