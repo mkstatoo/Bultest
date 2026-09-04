@@ -65,6 +65,7 @@ jobs:
             --min-change "${{ github.event.inputs.min_change || '1.5' }}" \
             --min-tests "${{ github.event.inputs.min_tests || '7' }}" \
             --out results \
+            --cache-path "data_cache/klines_${{ github.event.inputs.interval || '5m' }}_${{ github.event.inputs.days || '14' }}d.csv.gz" \
             ${{ github.event.inputs.optimize == 'true' && '--optimize' || '' }}
 
       - name: نمایش خلاصه در لاگ
@@ -77,12 +78,12 @@ jobs:
           path: results/
           retention-days: 90
 
-      - name: Commit نتایج به ریپو (تاریخچه بک‌تست‌ها)
+      - name: Commit نتایج به ریپو (تاریخچه بک‌تست‌ها + کش داده خام)
         run: |
           git config user.name "Bull Hunter Bot"
           git config user.email "actions@github.com"
           mkdir -p history
-          cp results/summary.json "history/summary_$(date -u +%Y%m%d_%H%M%S).json"
-          git add results/ history/
+          cp results/summary.json "history/summary_$(date -u +%Y%m%d_%H%M%S).json" 2>/dev/null || true
+          git add results/ history/ data_cache/ 2>/dev/null || true
           git commit -m "📊 بک‌تست واقعی $(date -u +%Y-%m-%d\ %H:%M\ UTC)" || echo "تغییری برای commit نبود"
           git push || echo "push انجام نشد (احتمالاً branch protection)"
