@@ -413,6 +413,31 @@ def write_report(out_dir: Path, summary: dict, trades: list, filename_prefix="")
         f.write("\n".join(md))
 
 
+def load_raw_cache(cache_path: Path) -> dict:
+    """بارگذاری داده خام کندل از فایل کش (اگر موجود باشد) — بدون درخواست شبکه"""
+    if not cache_path.exists():
+        return {}
+    df_all = pd.read_csv(cache_path, compression="gzip")
+    df_all["dt"] = pd.to_datetime(df_all["dt"])
+    raw_dfs = {}
+    for sym, grp in df_all.groupby("symbol"):
+        raw_dfs[sym] = grp.drop(columns=["symbol"]).sort_values("dt").reset_index(drop=True)
+    return raw_dfs
+
+
+def save_raw_cache(cache_path: Path, raw_dfs: dict):
+    """ذخیره داده خام همه نمادها در یک فایل فشرده واحد (برای استفاده مجدد بدون fetch)"""
+    cache_path.parent.mkdir(exist_ok=True, parents=True)
+    parts = []
+    for sym, df in raw_dfs.items():
+        d = df[["dt", "open", "high", "low", "close", "volume"]].copy()
+        d["symbol"] = sym
+        parts.append(d)
+    combined = pd.concat(parts, ignore_index=True)
+    combined.to_csv(cache_path, index=False, compression="gzip")
+    log.info(f"💾 کش داده خام ذخیره شد: {cache_path} ({len(combined):,} ردیف، {len(raw_dfs)} نماد)")
+
+
 def main():
     ap = argparse.ArgumentParser(description="بک‌تست واقعی Bull Hunter v2 روی Top 200 — داده واقعی Binance")
     ap.add_argument("--days", type=int, default=14, help="تعداد روزهای بک‌تست")
@@ -426,6 +451,9 @@ def main():
     ap.add_argument("--out", type=str, default="results")
     ap.add_argument("--optimize", action="store_true",
                      help="اجرای grid search روی چند ترکیب پارامتر برای یافتن بهترین سود (روی همان داده واقعی)")
+    ap.add_argument("--cache-path", type=str, default=None,
+                     help="مسیر فایل کش داده خام (csv.gz). اگر موجود باشد، به‌جای دریافت از Binance از آن خوانده می‌شود؛ "
+                          "اگر موجود نباشد، بعد از دریافت زنده، همان‌جا ذخیره می‌شود تا دفعه بعد نیازی به fetch نباشد.")
     args = ap.parse_args()
 
     interval_minutes = {"1m": 1, "3m": 3, "5m": 5, "15m": 15, "30m": 30, "1h": 60}
@@ -439,42 +467,62 @@ def main():
     session = requests.Session()
     session.headers.update({"Accept": "application/json"})
 
-    # ── تست اتصال اولیه — تعیین می‌کند کدام endpoint کار می‌کند ──────────────
-    try:
-        ping_main = session.get(f"{BINANCE_BASE}/ping", timeout=10)
-        DEBUG_LOG.append(f"[ping BINANCE_BASE] status={ping_main.status_code}")
-        if ping_main.status_code == 451:
-            _active_base["url"] = BINANCE_MIRROR
-            ping_mirror = session.get(f"{BINANCE_MIRROR}/ping", timeout=10)
-            DEBUG_LOG.append(f"[ping BINANCE_MIRROR] status={ping_mirror.status_code}")
-            log.warning(f"  Binance اصلی مسدود است (451) — سوئیچ به mirror: {BINANCE_MIRROR}")
-        exch_info = session.get(f"{_active_base['url']}/exchangeInfo", params={"symbol": "BTCUSDT"}, timeout=10)
-        DEBUG_LOG.append(f"[exchangeInfo via {_active_base['url']}] status={exch_info.status_code} body={exch_info.text[:200]}")
-    except Exception as e:
-        DEBUG_LOG.append(f"[connectivity test] {type(e).__name__}: {e}")
-    log.info(f"منبع داده فعال: {_active_base['url']}")
+    cache_path = Path(args.cache_path) if args.cache_path else None
+    raw_cache = load_raw_cache(cache_path) if cache_path else {}
 
-    # ── دریافت واقعی لیست Top N نماد بر اساس حجم زنده Binance ────────────────
-    symbols = fetch_top_symbols(args.symbols, session)
-    if not symbols:
-        symbols = TOP200_FALLBACK[: args.symbols]
-        DEBUG_LOG.append("[main] از لیست fallback استفاده شد")
+    if raw_cache:
+        # ── حالت کش: هیچ درخواست شبکه‌ای برای داده کندل زده نمی‌شود ──────────
+        log.info(f"📦 استفاده از کش موجود: {cache_path} — {len(raw_cache)} نماد، بدون دریافت مجدد از Binance")
+        DEBUG_LOG.append(f"[cache] بارگذاری از {cache_path} — {len(raw_cache)} نماد")
+        symbols = list(raw_cache.keys())
+        actual_start = min(df["dt"].min() for df in raw_cache.values())
+        actual_end = max(df["dt"].max() for df in raw_cache.values())
+        log.info(f"   بازه واقعی داده کش‌شده: {actual_start} تا {actual_end}")
+        cached_dfs = {sym: compute_indicators(df, vwap_window) for sym, df in raw_cache.items()}
+    else:
+        # ── تست اتصال اولیه — تعیین می‌کند کدام endpoint کار می‌کند ──────────
+        try:
+            ping_main = session.get(f"{BINANCE_BASE}/ping", timeout=10)
+            DEBUG_LOG.append(f"[ping BINANCE_BASE] status={ping_main.status_code}")
+            if ping_main.status_code == 451:
+                _active_base["url"] = BINANCE_MIRROR
+                ping_mirror = session.get(f"{BINANCE_MIRROR}/ping", timeout=10)
+                DEBUG_LOG.append(f"[ping BINANCE_MIRROR] status={ping_mirror.status_code}")
+                log.warning(f"  Binance اصلی مسدود است (451) — سوئیچ به mirror: {BINANCE_MIRROR}")
+            exch_info = session.get(f"{_active_base['url']}/exchangeInfo", params={"symbol": "BTCUSDT"}, timeout=10)
+            DEBUG_LOG.append(f"[exchangeInfo via {_active_base['url']}] status={exch_info.status_code} body={exch_info.text[:200]}")
+        except Exception as e:
+            DEBUG_LOG.append(f"[connectivity test] {type(e).__name__}: {e}")
+        log.info(f"منبع داده فعال: {_active_base['url']}")
 
-    log.info(f"🐂 Bull Hunter v2 — بک‌تست واقعی")
-    log.info(f"   بازه: {args.days} روز | تایم‌فریم: {args.interval} | ارزها: {len(symbols)}")
-    log.info(f"   از {datetime.fromtimestamp(start_ms/1000, timezone.utc)} تا {datetime.fromtimestamp(end_ms/1000, timezone.utc)}")
+        # ── دریافت واقعی لیست Top N نماد بر اساس حجم زنده Binance ────────────
+        symbols = fetch_top_symbols(args.symbols, session)
+        if not symbols:
+            symbols = TOP200_FALLBACK[: args.symbols]
+            DEBUG_LOG.append("[main] از لیست fallback استفاده شد")
 
-    # ── دریافت و محاسبه اندیکاتورها یک‌بار برای همه نمادها (کش در حافظه) ──────
-    cached_dfs = {}
-    for idx, sym in enumerate(symbols, 1):
-        log.info(f"[{idx}/{len(symbols)}] دریافت داده واقعی {sym}...")
-        raw = fetch_klines(sym, args.interval, start_ms, end_ms, session)
-        df = klines_to_df(raw)
-        if df.empty or len(df) < 100:
-            log.info(f"   ⚠️  داده ناکافی برای {sym} ({len(df)} کندل) — رد شد")
-            continue
-        cached_dfs[sym] = compute_indicators(df, vwap_window)
-        time.sleep(0.08)
+        log.info(f"🐂 Bull Hunter v2 — بک‌تست واقعی")
+        log.info(f"   بازه: {args.days} روز | تایم‌فریم: {args.interval} | ارزها: {len(symbols)}")
+        log.info(f"   از {datetime.fromtimestamp(start_ms/1000, timezone.utc)} تا {datetime.fromtimestamp(end_ms/1000, timezone.utc)}")
+
+        # ── دریافت و محاسبه اندیکاتورها یک‌بار برای همه نمادها ────────────────
+        raw_dfs = {}
+        for idx, sym in enumerate(symbols, 1):
+            log.info(f"[{idx}/{len(symbols)}] دریافت داده واقعی {sym}...")
+            raw = fetch_klines(sym, args.interval, start_ms, end_ms, session)
+            df = klines_to_df(raw)
+            if df.empty or len(df) < 100:
+                log.info(f"   ⚠️  داده ناکافی برای {sym} ({len(df)} کندل) — رد شد")
+                continue
+            raw_dfs[sym] = df
+            time.sleep(0.08)
+
+        log.info(f"✅ داده {len(raw_dfs)} نماد دریافت شد")
+        if cache_path and raw_dfs:
+            save_raw_cache(cache_path, raw_dfs)
+            DEBUG_LOG.append(f"[cache] ذخیره‌شده در {cache_path} برای استفاده مجدد بدون fetch")
+
+        cached_dfs = {sym: compute_indicators(df, vwap_window) for sym, df in raw_dfs.items()}
 
     log.info(f"✅ داده {len(cached_dfs)} نماد در حافظه کش شد")
     out_dir = Path(args.out)
