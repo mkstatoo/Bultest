@@ -263,6 +263,9 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
                 reason = "ATR Trail"
             elif price <= open_trade["hard_stop"]:
                 reason = "Hard Stop"
+            elif cfg.get("max_hold_candles") and not open_trade["trail_on"] and \
+                    (i - open_trade["entry_idx"]) >= cfg["max_hold_candles"]:
+                reason = "Time Exit"
 
             if reason:
                 pnl_pct = (price - open_trade["entry"]) / open_trade["entry"] * 100
@@ -317,6 +320,7 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
                 "entry": row["close"], "entry_time": row["dt"], "high": row["close"],
                 "atr": row["atr10"], "trail_on": False, "trail_stop": None,
                 "hard_stop": row["close"] * (1 - cfg["hard_stop_pct"] / 100),
+                "entry_idx": i,
             }
 
     if open_trade is not None:
@@ -340,7 +344,7 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
 # ══════════════════════════════════════════════════════════════════════════════
 def build_cfg(min_change, volume_mult, min_tests, cooldown_candles, trade_usdt,
               rsi_min=45, rsi_max=70, atr_mult=3.0, trail_activate_pct=10.0, hard_stop_pct=5.0,
-              t9_max_dist_pct=None):
+              t9_max_dist_pct=None, max_hold_candles=None):
     return {
         "min_change_pct": min_change, "volume_mult": volume_mult,
         "rsi_min": rsi_min, "rsi_max": rsi_max, "min_tests": min_tests,
@@ -348,6 +352,7 @@ def build_cfg(min_change, volume_mult, min_tests, cooldown_candles, trade_usdt,
         "hard_stop_pct": hard_stop_pct, "trade_usdt": trade_usdt,
         "cooldown_candles": cooldown_candles,
         "t9_max_dist_pct": t9_max_dist_pct,  # None = تست T9 غیرفعال (سازگار با نسخه قبلی)
+        "max_hold_candles": max_hold_candles,  # None = خروج زمانی غیرفعال
     }
 
 
