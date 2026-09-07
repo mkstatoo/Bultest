@@ -316,10 +316,15 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
                         "change_pct": round(float(chg), 3), "tests_passed": passed, "confirmed": confirmed})
 
         if confirmed:
+            # Hard Stop: یا درصد ثابت (پیش‌فرض) یا مبتنی‌بر ATR (اگر hard_stop_atr_mult تنظیم شده باشد)
+            if cfg.get("hard_stop_atr_mult") is not None:
+                hs = row["close"] - cfg["hard_stop_atr_mult"] * row["atr10"]
+            else:
+                hs = row["close"] * (1 - cfg["hard_stop_pct"] / 100)
             open_trade = {
                 "entry": row["close"], "entry_time": row["dt"], "high": row["close"],
                 "atr": row["atr10"], "trail_on": False, "trail_stop": None,
-                "hard_stop": row["close"] * (1 - cfg["hard_stop_pct"] / 100),
+                "hard_stop": hs,
                 "entry_idx": i,
             }
 
@@ -344,7 +349,7 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
 # ══════════════════════════════════════════════════════════════════════════════
 def build_cfg(min_change, volume_mult, min_tests, cooldown_candles, trade_usdt,
               rsi_min=45, rsi_max=70, atr_mult=3.0, trail_activate_pct=10.0, hard_stop_pct=5.0,
-              t9_max_dist_pct=None, max_hold_candles=None):
+              t9_max_dist_pct=None, max_hold_candles=None, hard_stop_atr_mult=None):
     return {
         "min_change_pct": min_change, "volume_mult": volume_mult,
         "rsi_min": rsi_min, "rsi_max": rsi_max, "min_tests": min_tests,
@@ -353,6 +358,7 @@ def build_cfg(min_change, volume_mult, min_tests, cooldown_candles, trade_usdt,
         "cooldown_candles": cooldown_candles,
         "t9_max_dist_pct": t9_max_dist_pct,  # None = تست T9 غیرفعال (سازگار با نسخه قبلی)
         "max_hold_candles": max_hold_candles,  # None = خروج زمانی غیرفعال
+        "hard_stop_atr_mult": hard_stop_atr_mult,  # None = درصد ثابت (سازگار با قبل)
     }
 
 
