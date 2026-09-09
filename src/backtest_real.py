@@ -236,7 +236,7 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
     signals, trades = [], []
     open_trade = None
     last_exit_idx = None  # کولداون از لحظه خروج (فروش) شمرده می‌شود، نه ورود
-    start_idx = max(60, cfg["cooldown_candles"])
+    start_idx = max(60, 288)  # فقط برای warm-up اندیکاتورها (VWAP نیاز به ۱ روز کامل دارد)، نه cooldown
 
     if len(df) <= start_idx:
         return {"symbol": symbol, "signals": [], "trades": []}
