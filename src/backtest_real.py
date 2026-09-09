@@ -362,6 +362,66 @@ def build_cfg(min_change, volume_mult, min_tests, cooldown_candles, trade_usdt,
     }
 
 
+RELIABLE_SYMBOLS = frozenset([
+    # سهام توکنایز‌شده Binance
+    "AAOIBUSDT", "AVGOBUSDT", "CBRSBUSDT", "CRCLBUSDT", "GMEBUSDT", "HOODBUSDT", "INTCBUSDT",
+    "LITEBUSDT", "MRVLBUSDT", "MSTRBUSDT", "NVDABUSDT", "RKLBBUSDT", "SKHYBUSDT", "SNDKBUSDT",
+    "SNXXBUSDT", "SOXLBUSDT",
+    # DeFi شناخته‌شده
+    "AAVEUSDT", "UNIUSDT", "CRVUSDT", "SUSHIUSDT", "LDOUSDT", "MORPHOUSDT", "PENDLEUSDT",
+    "ONDOUSDT", "DODOUSDT",
+    # لایه۲ / اسکیلینگ
+    "ARBUSDT", "OPUSDT", "STRKUSDT", "ZKUSDT", "POLUSDT",
+])
+
+
+def apply_portfolio_capacity_weighted(all_trades: list, max_open_trades: int,
+                                       reliable_usdt: float, other_usdt: float) -> dict:
+    """
+    مثل apply_portfolio_capacity ولی با سرمایه متفاوت برای نمادهای «قابل‌اعتماد» (RELIABLE_SYMBOLS)
+    یافته بک‌تست دوگانه (۳۰روز تازه + ۱۲۰روز قدیمی مستقل): وزن‌دهی $100/$40 در هر دو بازه سود را بهبود داد
+    """
+    from datetime import datetime as _dt
+    trades = sorted(all_trades, key=lambda t: t["entry_time"])
+    open_exits, accepted = [], []
+
+    def to_dt(s):
+        return _dt.strptime(s, "%Y-%m-%d %H:%M:%S")
+
+    pending_idx = 0
+    while pending_idx < len(trades) or open_exits:
+        next_entry = to_dt(trades[pending_idx]["entry_time"]) if pending_idx < len(trades) else None
+        next_exit = min(open_exits, key=lambda x: x[0])[0] if open_exits else None
+        if next_exit is not None and (next_entry is None or next_exit <= next_entry):
+            open_exits.sort(key=lambda x: x[0])
+            exit_dt, size, pnl_pct, t_ref = open_exits.pop(0)
+            acc = dict(t_ref)
+            acc["actual_size"] = size
+            acc["actual_pnl_usdt"] = size * (pnl_pct / 100)
+            accepted.append(acc)
+        else:
+            t = trades[pending_idx]; pending_idx += 1
+            if len(open_exits) >= max_open_trades:
+                continue
+            size = reliable_usdt if t["symbol"] in RELIABLE_SYMBOLS else other_usdt
+            open_exits.append((to_dt(t["exit_time"]), size, t["pnl_pct"], t))
+
+    wins = [t for t in accepted if t["pnl_pct"] >= 0]
+    losses = [t for t in accepted if t["pnl_pct"] < 0]
+    total_pnl = sum(t["actual_pnl_usdt"] for t in accepted)
+    wr = len(wins) / len(accepted) * 100 if accepted else 0
+    gp = sum(t["actual_pnl_usdt"] for t in wins)
+    gl = abs(sum(t["actual_pnl_usdt"] for t in losses))
+    pf = gp / gl if gl > 0 else 0
+    return {
+        "accepted_trades": len(accepted), "wins": len(wins), "losses": len(losses),
+        "win_rate_pct": round(wr, 2), "total_pnl_usdt": round(total_pnl, 3),
+        "profit_factor": round(pf, 3),
+        "max_capital_worst_case": max_open_trades * max(reliable_usdt, other_usdt),
+        "trades": accepted,
+    }
+
+
 def apply_portfolio_capacity(all_trades: list, max_open_trades: int, trade_usdt: float) -> dict:
     """
     شبیه‌سازی محدودیت واقعی MAX_OPEN_TRADES در سطح کل پورتفولیو (نه فقط هر نماد جدا).
