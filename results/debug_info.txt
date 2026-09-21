@@ -1,8 +1,8 @@
-اجرا در: 2026-09-21T22:46:06.674434+00:00
+اجرا در: 2026-09-21T23:27:55.264890+00:00
 تعداد رکورد لاگ: 5
 ============================================================
 [ping BINANCE_BASE] status=451
 [ping BINANCE_MIRROR] status=200
-[exchangeInfo via https://data-api.binance.vision/api/v3] status=200 body={"timezone":"UTC","serverTime":1790030228855,"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNu
+[exchangeInfo via https://data-api.binance.vision/api/v3] status=200 body={"timezone":"UTC","serverTime":1790031087087,"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNu
 [fetch_top_symbols] 200 نماد واقعی از 685 کاندیدا انتخاب شد (بر اساس حجم واقعی)
-[cache] ذخیره‌شده در data_cache/klines_15m_120d.csv.gz برای استفاده مجدد بدون fetch
+[cache] ذخیره‌شده در data_cache/klines_5m_120d.csv.gz برای استفاده مجدد بدون fetch
