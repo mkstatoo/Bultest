@@ -24,13 +24,37 @@ on:
         required: false
         default: "1.5"
       min_tests:
-        description: "حداقل تست‌های لازم از ۸ (پیشنهاد: 6 یا 7)"
+        description: "حداقل تست‌های لازم از ۹ (نهایی تأییدشده: 5)"
         required: false
-        default: "7"
+        default: "5"
       optimize:
         description: "بهینه‌سازی پارامترها (grid search) برای یافتن بیشترین سود — true/false"
         required: false
         default: "false"
+      t9_max_dist:
+        description: "فیلتر T9: حداقل فاصله٪ (منفی) از سقف ۲۴ساعته (نهایی: -7.0، برای غیرفعال‌کردن خالی بگذارید)"
+        required: false
+        default: "-7.0"
+      max_hold_hours:
+        description: "Time Exit به ساعت (نهایی: 4.0، برای غیرفعال‌کردن خالی بگذارید)"
+        required: false
+        default: "4.0"
+      hard_stop_atr_mult:
+        description: "ضریب ATR برای Hard Stop پویا (نهایی: 2.5، برای غیرفعال‌کردن خالی بگذارید)"
+        required: false
+        default: "2.5"
+      max_open_trades:
+        description: "محدودیت واقعی معاملات هم‌زمان پورتفولیو (نهایی: 15)"
+        required: false
+        default: "15"
+      reliable_usdt:
+        description: "سرمایه هر معامله روی نمادهای قابل‌اعتماد (نهایی: 100)"
+        required: false
+        default: "100"
+      other_usdt:
+        description: "سرمایه هر معامله روی بقیه نمادها (نهایی: 40)"
+        required: false
+        default: "40"
 
   # اجرای خودکار هفتگی (اختیاری — می‌توانید کامنت یا حذف کنید)
   schedule:
@@ -62,8 +86,15 @@ jobs:
             --days "${{ github.event.inputs.days || '14' }}" \
             --interval "${{ github.event.inputs.interval || '5m' }}" \
             --symbols "${{ github.event.inputs.symbols || '200' }}" \
-            --min-change "${{ github.event.inputs.min_change || '1.5' }}" \
-            --min-tests "${{ github.event.inputs.min_tests || '7' }}" \
+            --min-change "${{ github.event.inputs.min_change || '3.0' }}" \
+            --min-tests "${{ github.event.inputs.min_tests || '5' }}" \
+            --volume-mult "2.0" \
+            --t9-max-dist "${{ github.event.inputs.t9_max_dist || '-7.0' }}" \
+            --max-hold-hours "${{ github.event.inputs.max_hold_hours || '4.0' }}" \
+            --hard-stop-atr-mult "${{ github.event.inputs.hard_stop_atr_mult || '2.5' }}" \
+            --max-open-trades "${{ github.event.inputs.max_open_trades || '15' }}" \
+            --reliable-usdt "${{ github.event.inputs.reliable_usdt || '100' }}" \
+            --other-usdt "${{ github.event.inputs.other_usdt || '40' }}" \
             --out results \
             --cache-path "data_cache/klines_${{ github.event.inputs.interval || '5m' }}_${{ github.event.inputs.days || '14' }}d.csv.gz" \
             ${{ github.event.inputs.optimize == 'true' && '--optimize' || '' }}

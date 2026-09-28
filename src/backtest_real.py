@@ -592,6 +592,17 @@ def main():
     ap.add_argument("--max-open-trades", type=int, default=None,
                      help="اگر مشخص شود، یک گزارش اضافی با محدودیت واقعی تعداد معاملات هم‌زمان پورتفولیو تولید می‌شود "
                           "(مطابق Config.MAX_OPEN_TRADES در ربات واقعی) — نتیجه در results/portfolio_summary.json ذخیره می‌شود")
+    # پارامترهای نهایی تأییدشده (بولهانتر v2 واقعی) — قبلاً فقط در اسکریپت‌های grid-search جداگانه بودند
+    ap.add_argument("--t9-max-dist", type=float, default=None,
+                     help="فیلتر T9: حداقل فاصله (٪، عدد منفی) از سقف ۲۴ساعته که سیگنال هنوز مجاز است. None=غیرفعال")
+    ap.add_argument("--max-hold-hours", type=float, default=None,
+                     help="Time Exit: اگر تا این ساعت Trailing فعال نشد، معامله بسته شود. None=غیرفعال")
+    ap.add_argument("--hard-stop-atr-mult", type=float, default=None,
+                     help="ضریب ATR برای Hard Stop پویا (جایگزین hard-stop-pct ثابت). None=همان درصد ثابت")
+    ap.add_argument("--reliable-usdt", type=float, default=None,
+                     help="سرمایه هر معامله روی نمادهای RELIABLE_SYMBOLS (تخصیص وزن‌دار). باید با --other-usdt همراه باشد")
+    ap.add_argument("--other-usdt", type=float, default=None,
+                     help="سرمایه هر معامله روی بقیه نمادها (تخصیص وزن‌دار). باید با --reliable-usdt همراه باشد")
     args = ap.parse_args()
 
     interval_minutes = {"1m": 1, "3m": 3, "5m": 5, "15m": 15, "30m": 30, "1h": 60}
@@ -667,20 +678,33 @@ def main():
     out_dir.mkdir(exist_ok=True, parents=True)
 
     if not args.optimize:
-        # ── حالت عادی: یک ترکیب پارامتر ─────────────────────────────────────
+        # ── حالت عادی: یک ترکیب پارامتر — شامل تمام یافته‌های نهایی تأییدشده ──
+        max_hold_candles = None
+        if args.max_hold_hours:
+            max_hold_candles = max(1, int(args.max_hold_hours * 60 / candle_min))
         cfg = build_cfg(args.min_change, args.volume_mult, args.min_tests,
-                        cooldown_candles, args.trade_usdt)
+                        cooldown_candles, args.trade_usdt,
+                        t9_max_dist_pct=args.t9_max_dist,
+                        max_hold_candles=max_hold_candles,
+                        hard_stop_atr_mult=args.hard_stop_atr_mult)
         res = run_backtest_on_cache(cached_dfs, cfg)
         summary = summary_from_result(res, args, symbols, len(cached_dfs))
         write_report(out_dir, summary, res["trades"])
 
         # ── گزارش اضافی با محدودیت واقعی معاملات هم‌زمان پورتفولیو (اختیاری) ──
         if args.max_open_trades:
-            port = apply_portfolio_capacity(res["trades"], args.max_open_trades, args.trade_usdt)
+            if args.reliable_usdt is not None and args.other_usdt is not None:
+                port = apply_portfolio_capacity_weighted(
+                    res["trades"], args.max_open_trades, args.reliable_usdt, args.other_usdt)
+                port["max_capital_required_usdt"] = round(args.max_open_trades * args.reliable_usdt, 2)
+                port["allocation"] = {"reliable_usdt": args.reliable_usdt, "other_usdt": args.other_usdt,
+                                       "reliable_symbols_count": len(RELIABLE_SYMBOLS)}
+            else:
+                port = apply_portfolio_capacity(res["trades"], args.max_open_trades, args.trade_usdt)
             with open(out_dir / "portfolio_summary.json", "w", encoding="utf-8") as f:
                 json.dump(port, f, ensure_ascii=False, indent=2, default=str)
             log.info(f"📊 با محدودیت MAX_OPEN_TRADES={args.max_open_trades}: "
-                     f"{port['accepted_trades']} پذیرفته / {port['rejected_no_capacity']} رد به‌دلیل ظرفیت | "
+                     f"{port['accepted_trades']} پذیرفته | "
                      f"PnL ${port['total_pnl_usdt']:+.2f} | سرمایه لازم ${port['max_capital_required_usdt']:,.0f}")
 
         with open(out_dir / "debug_info.txt", "w", encoding="utf-8") as f:
