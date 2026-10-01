@@ -1,10 +1,10 @@
-اجرا در: 2026-09-28T14:36:43.511540+00:00
-تعداد رکورد لاگ: 13
+اجرا در: 2026-10-01T21:12:27.187710+00:00
+تعداد رکورد لاگ: 15
 ============================================================
 [ping BINANCE_BASE] status=451
 [ping BINANCE_MIRROR] status=200
-[exchangeInfo via https://data-api.binance.vision/api/v3] status=200 body={"timezone":"UTC","serverTime":1790606045377,"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNu
-[fetch_top_symbols] 200 نماد واقعی از 689 کاندیدا انتخاب شد (بر اساس حجم واقعی)
+[exchangeInfo via https://data-api.binance.vision/api/v3] status=200 body={"timezone":"UTC","serverTime":1790888961334,"rateLimits":[{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":6000},{"rateLimitType":"ORDERS","interval":"SECOND","intervalNu
+[fetch_top_symbols] 200 نماد واقعی از 696 کاندیدا انتخاب شد (بر اساس حجم واقعی)
 TONUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
 NFPUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
 HFTUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
@@ -13,4 +13,6 @@ RNDRUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
 COCOSUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
 SCRTUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
 POLYUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
-[cache] ذخیره‌شده در data_cache/klines_5m_7d.csv.gz برای استفاده مجدد بدون fetch
+FTMUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
+GALUSDT: هیچ کندلی دریافت نشد (all_klines خالی ماند)
+[cache] ذخیره‌شده در data_cache/klines_5m_07d.csv.gz برای استفاده مجدد بدون fetch
