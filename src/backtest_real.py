@@ -250,7 +250,16 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
                 open_trade["high"] = price
             pnl = (price - open_trade["entry"]) / open_trade["entry"] * 100
 
-            if not open_trade["trail_on"] and pnl >= cfg["trail_activate_pct"]:
+            hybrid_hit = None
+            if cfg.get("exit_mode") == "hybrid":
+                # سقف سود بر اساس قیمت بسته‌شدن (مثل بقیه‌ی منطق)؛ trail_on = «نردبان/ترِیل فعال است» (خروج زمانی خاموش می‌شود)
+                open_trade["peak"] = max(open_trade.get("peak", pnl), pnl)
+                atr_pct = open_trade["atr"] / open_trade["entry"] * 100
+                sp = hybrid_stop_pct(open_trade["peak"], atr_pct, cfg["trail_activate_pct"], cfg["atr_mult"])
+                open_trade["trail_on"] = sp is not None
+                if sp is not None and pnl <= sp:
+                    hybrid_hit = "ATR Trail" if open_trade["peak"] >= cfg["trail_activate_pct"] else "Ladder"
+            elif not open_trade["trail_on"] and pnl >= cfg["trail_activate_pct"]:
                 open_trade["trail_on"] = True
                 open_trade["trail_stop"] = open_trade["high"] - cfg["atr_mult"] * open_trade["atr"]
             elif open_trade["trail_on"]:
@@ -259,7 +268,9 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
                     open_trade["trail_stop"] = ns
 
             reason = None
-            if open_trade["trail_on"] and price <= open_trade["trail_stop"]:
+            if hybrid_hit:
+                reason = hybrid_hit
+            elif cfg.get("exit_mode") != "hybrid" and open_trade["trail_on"] and price <= open_trade["trail_stop"]:
                 reason = "ATR Trail"
             elif price <= open_trade["hard_stop"]:
                 reason = "Hard Stop"
@@ -347,9 +358,25 @@ def backtest_symbol(symbol: str, df: pd.DataFrame, cfg: dict) -> dict:
 # ══════════════════════════════════════════════════════════════════════════════
 #  اجرای اصلی
 # ══════════════════════════════════════════════════════════════════════════════
+# ── خروج ترکیبی (Hybrid): نردبانِ قفل سود تا قبل از trail_activate_pct، سپس ATR Trail ──
+# کلید = سقف سود (٪) که قیمت بسته‌شدن به آن رسیده؛ مقدار = اگر سود به این سطح (٪) برگشت، بفروش
+HYBRID_LADDER = {4: 3, 5: 3, 6: 3, 7: 3, 8: 4, 9: 5}
+
+
+def hybrid_stop_pct(peak_pct, atr_pct, switch_pct, atr_mult):
+    """سطح فروش (٪ سود) برای سقف سودِ داده‌شده؛ None یعنی هنوز فعال نشده.
+    زیر switch_pct: نردبان. از switch_pct به بعد: max(سقف − atr_mult×ATR ورود، آخرین پله‌ی نردبان)."""
+    if peak_pct < 4:
+        return None
+    if peak_pct < switch_pct:
+        return HYBRID_LADDER[int(peak_pct)]
+    return max(peak_pct - atr_mult * atr_pct, HYBRID_LADDER[9])
+
+
 def build_cfg(min_change, volume_mult, min_tests, cooldown_candles, trade_usdt,
               rsi_min=45, rsi_max=70, atr_mult=3.0, trail_activate_pct=10.0, hard_stop_pct=5.0,
-              t9_max_dist_pct=None, max_hold_candles=None, hard_stop_atr_mult=None):
+              t9_max_dist_pct=None, max_hold_candles=None, hard_stop_atr_mult=None,
+              exit_mode="atr"):
     return {
         "min_change_pct": min_change, "volume_mult": volume_mult,
         "rsi_min": rsi_min, "rsi_max": rsi_max, "min_tests": min_tests,
@@ -359,6 +386,7 @@ def build_cfg(min_change, volume_mult, min_tests, cooldown_candles, trade_usdt,
         "t9_max_dist_pct": t9_max_dist_pct,  # None = تست T9 غیرفعال (سازگار با نسخه قبلی)
         "max_hold_candles": max_hold_candles,  # None = خروج زمانی غیرفعال
         "hard_stop_atr_mult": hard_stop_atr_mult,  # None = درصد ثابت (سازگار با قبل)
+        "exit_mode": exit_mode,  # "atr" = رفتار قبلی | "hybrid" = نردبان تا trail_activate_pct سپس ATR Trail
     }
 
 
@@ -599,6 +627,8 @@ def main():
                      help="Time Exit: اگر تا این ساعت Trailing فعال نشد، معامله بسته شود. None=غیرفعال")
     ap.add_argument("--hard-stop-atr-mult", type=float, default=None,
                      help="ضریب ATR برای Hard Stop پویا (جایگزین hard-stop-pct ثابت). None=همان درصد ثابت")
+    ap.add_argument("--exit-mode", choices=["atr", "hybrid"], default="atr",
+                     help="atr = ATR Trail بعد از trail-activate (پیش‌فرض، رفتار قبلی). hybrid = نردبان قفل سود از ۴٪ تا قبل از trail-activate، سپس ATR Trail")
     ap.add_argument("--reliable-usdt", type=float, default=None,
                      help="سرمایه هر معامله روی نمادهای RELIABLE_SYMBOLS (تخصیص وزن‌دار). باید با --other-usdt همراه باشد")
     ap.add_argument("--other-usdt", type=float, default=None,
@@ -686,7 +716,8 @@ def main():
                         cooldown_candles, args.trade_usdt,
                         t9_max_dist_pct=args.t9_max_dist,
                         max_hold_candles=max_hold_candles,
-                        hard_stop_atr_mult=args.hard_stop_atr_mult)
+                        hard_stop_atr_mult=args.hard_stop_atr_mult,
+                        exit_mode=args.exit_mode)
         res = run_backtest_on_cache(cached_dfs, cfg)
         summary = summary_from_result(res, args, symbols, len(cached_dfs))
         write_report(out_dir, summary, res["trades"])

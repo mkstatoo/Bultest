@@ -1,0 +1,59 @@
+name: 🔬 ارزیابی تاریخی خارج از نمونه (خروج فعلی در برابر ترکیبی)
+
+# فقط دستی. داده‌ی بلند (مثلاً ۳۰۰ روز) را با retry دریافت می‌کند، هر دو حالت خروج را با پارامترهای فریزشده اجرا می‌کند،
+# فقط نتایج کوچک را commit می‌کند و کش داده‌ی خام را (به‌دلیل حد ۱۰۰MB گیت) به‌عنوان Release asset نگه می‌دارد.
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "تعداد روز داده (برای بخش دیده‌نشده ≥ 240؛ پیشنهاد 300)"
+        required: false
+        default: "300"
+      label:
+        description: "برچسب اجرا"
+        required: false
+        default: "hist300"
+      seen_cutoff:
+        description: "ورودی‌های قبل از این زمان (UTC) «دیده‌نشده» حساب می‌شوند"
+        required: false
+        default: "2026-05-24 22:55:00"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: oos-eval
+  cancel-in-progress: false
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: دریافت داده و ارزیابی
+        run: |
+          python tools/oos_eval.py --mode hist \
+            --days "${{ github.event.inputs.days || '300' }}" \
+            --label "${{ github.event.inputs.label || 'hist300' }}" \
+            --seen-cutoff "${{ github.event.inputs.seen_cutoff || '2026-05-24 22:55:00' }}" \
+            --cache-out /tmp/oos_cache.csv.gz \
+            --out "oos_results/${{ github.event.inputs.label || 'hist300' }}"
+      - name: نگهداری کش داده‌ی خام (Release asset، نه commit)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          L="${{ github.event.inputs.label || 'hist300' }}"
+          gh release delete "data-$L" -y --cleanup-tag 2>/dev/null || true
+          gh release create "data-$L" /tmp/oos_cache.csv.gz --prerelease \
+            --title "OOS data $L" --notes "کش واقعی کندل‌های 5m (Binance) برای ارزیابی $L؛ تولیدشده توسط tools/oos_eval.py"
+      - name: Commit نتایج کوچک
+        run: |
+          git config user.name "Bull Hunter Bot"; git config user.email "actions@github.com"
+          git add oos_results/
+          git commit -m "🔬 OOS ${{ github.event.inputs.label || 'hist300' }} $(date -u +%Y-%m-%d)" || echo "nothing to commit"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep 5; done

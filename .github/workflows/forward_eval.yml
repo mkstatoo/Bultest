@@ -1,0 +1,47 @@
+name: 📈 تست رو‌به‌جلو (خروج فعلی در برابر ترکیبی — پارامترهای فریزشده)
+
+# جهان نمادها از forward/symbols_2026-10-02.json فریز شده؛ پنجره از 2026-10-03 00:00 UTC شروع می‌شود.
+# اجرای‌های میانی فقط اطلاعاتی‌اند؛ تصمیم طبق docs/PRE_REGISTRATION_2026-10-02.md فقط در نقاط 28 و 56 روز گرفته می‌شود.
+on:
+  schedule:
+    - cron: "0 5 * * 1"   # هر دوشنبه 05:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: forward-eval
+  cancel-in-progress: false
+
+jobs:
+  forward:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: اجرای تست رو‌به‌جلو
+        run: |
+          D=$(date -u +%Y%m%d)
+          python tools/oos_eval.py --mode forward --start 2026-10-03 \
+            --symbols-file forward/symbols_2026-10-02.json \
+            --label "forward-$D" --cache-out /tmp/fwd_cache.csv.gz --out "forward_results/$D"
+      - name: نگهداری آخرین کش داده‌ی رو‌به‌جلو
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f /tmp/fwd_cache.csv.gz ]; then
+            gh release view forward-data-latest >/dev/null 2>&1 || \
+              gh release create forward-data-latest --prerelease --title "forward data (latest)" --notes "آخرین کش واقعی تست رو‌به‌جلو"
+            gh release upload forward-data-latest /tmp/fwd_cache.csv.gz --clobber
+          fi
+      - name: Commit
+        run: |
+          git config user.name "Bull Hunter Bot"; git config user.email "actions@github.com"
+          git add forward/ forward_results/ 2>/dev/null || true
+          git commit -m "📈 forward $(date -u +%Y-%m-%d)" || echo "nothing to commit"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep 5; done
