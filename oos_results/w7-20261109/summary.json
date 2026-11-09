@@ -1,0 +1,505 @@
+{
+ "label": "w7-20261109",
+ "mode": "hist",
+ "git_sha": "1cdda2978fa49a271328242b74f051b1e6609972",
+ "generated_at_utc": "2026-11-09T00:00:22.160956+00:00",
+ "data": {
+  "from": "2026-11-01 23:55:00",
+  "to": "2026-11-08 23:50:00",
+  "symbols": 161,
+  "symbol_list": [
+   "1INCHUSDT",
+   "AAPLBUSDT",
+   "AAVEUSDT",
+   "ACTUSDT",
+   "ADAUSDT",
+   "AEROUSDT",
+   "ALGOUSDT",
+   "AMPUSDT",
+   "APTUSDT",
+   "ARBUSDT",
+   "ARKUSDT",
+   "ARUSDT",
+   "ASTERUSDT",
+   "ATMUSDT",
+   "ATOMUSDT",
+   "ATUSDT",
+   "AUDIOUSDT",
+   "AVAUSDT",
+   "AVAXUSDT",
+   "AXSUSDT",
+   "BCHUSDT",
+   "BEAMXUSDT",
+   "BFUSDUSDT",
+   "BMNRBUSDT",
+   "BMTUSDT",
+   "BNBUSDT",
+   "BNCBUSDT",
+   "BONKUSDT",
+   "BROCCOLI714USDT",
+   "BTCUSDT",
+   "BTTCUSDT",
+   "CAKEUSDT",
+   "CELOUSDT",
+   "CHIPUSDT",
+   "COINBUSDT",
+   "COMPUSDT",
+   "COTIUSDT",
+   "CRCLBUSDT",
+   "CRVUSDT",
+   "CYBERUSDT",
+   "DASHUSDT",
+   "DGBUSDT",
+   "DODOUSDT",
+   "DOGEUSDT",
+   "DOTUSDT",
+   "DRAMBUSDT",
+   "EIGENUSDT",
+   "ENAUSDT",
+   "ERAUSDT",
+   "ETCUSDT",
+   "ETHFIUSDT",
+   "ETHUSDT",
+   "EURIUSDT",
+   "EWYBUSDT",
+   "FETUSDT",
+   "FILUSDT",
+   "FOGOUSDT",
+   "GALAUSDT",
+   "GIGGLEUSDT",
+   "GLMRUSDT",
+   "GNSUSDT",
+   "GOOGLBUSDT",
+   "GRAMUSDT",
+   "GTCUSDT",
+   "HAEDALUSDT",
+   "HBARUSDT",
+   "HMSTRUSDT",
+   "HOTUSDT",
+   "HUMAUSDT",
+   "HYPEUSDT",
+   "ICPUSDT",
+   "IMXUSDT",
+   "INITUSDT",
+   "INJUSDT",
+   "INTCBUSDT",
+   "JSTUSDT",
+   "JTOUSDT",
+   "KAVAUSDT",
+   "KITEUSDT",
+   "KORUBUSDT",
+   "LDOUSDT",
+   "LINKUSDT",
+   "LSKUSDT",
+   "LTCUSDT",
+   "LUNCUSDT",
+   "MARSCOINUSDT",
+   "MEGAUSDT",
+   "METUSDT",
+   "MITOUSDT",
+   "MORPHOUSDT",
+   "MSTRBUSDT",
+   "MUBUSDT",
+   "NEARUSDT",
+   "NEIROUSDT",
+   "NIGHTUSDT",
+   "NILUSDT",
+   "NVDABUSDT",
+   "ONDOUSDT",
+   "ONEUSDT",
+   "OPENUSDT",
+   "OPUSDT",
+   "PAXGUSDT",
+   "PENDLEUSDT",
+   "PENGUUSDT",
+   "PEPEUSDT",
+   "PLUMEUSDT",
+   "PNUTUSDT",
+   "POLUSDT",
+   "PROMUSDT",
+   "PUMPUSDT",
+   "PYTHUSDT",
+   "QNTUSDT",
+   "QQQBUSDT",
+   "RAYUSDT",
+   "REDUSDT",
+   "RENDERUSDT",
+   "RLUSDUSDT",
+   "RSRUSDT",
+   "RWUSDUSDT",
+   "SANDUSDT",
+   "SEIUSDT",
+   "SHIBUSDT",
+   "SIGNUSDT",
+   "SKHYBUSDT",
+   "SKYUSDT",
+   "SNDKBUSDT",
+   "SNXXBUSDT",
+   "SOLUSDT",
+   "SOLVUSDT",
+   "SOPHUSDT",
+   "SOXLBUSDT",
+   "SPCXBUSDT",
+   "STRKUSDT",
+   "SUIUSDT",
+   "SUSDT",
+   "TAOUSDT",
+   "THEUSDT",
+   "TIAUSDT",
+   "TQQQBUSDT",
+   "TRUMPUSDT",
+   "TRXUSDT",
+   "UNIUSDT",
+   "USD1USDT",
+   "USDEUSDT",
+   "UUSDT",
+   "VIRTUALUSDT",
+   "WBETHUSDT",
+   "WIFUSDT",
+   "WLDUSDT",
+   "WLFIUSDT",
+   "WUSDT",
+   "XAUTUSDT",
+   "XLMUSDT",
+   "XPLUSDT",
+   "XRPUSDT",
+   "XUSDUSDT",
+   "ZAMAUSDT",
+   "ZECUSDT",
+   "ZENUSDT",
+   "ZROUSDT",
+   "牛来USDT"
+  ],
+  "first_possible_signal": "2026-11-02 23:55:00"
+ },
+ "data_quality": {
+  "failed": {},
+  "short": {
+   "TONUSDT": 0,
+   "NFPUSDT": 0,
+   "HFTUSDT": 0,
+   "VANRYUSDT": 0,
+   "RNDRUSDT": 0,
+   "COCOSUSDT": 0,
+   "SCRTUSDT": 0,
+   "POLYUSDT": 0,
+   "FTMUSDT": 0,
+   "GALUSDT": 0,
+   "OMNIUSDT": 0,
+   "TOMOUSDT": 0,
+   "MATICUSDT": 0,
+   "VICUSDT": 0,
+   "TVKUSDT": 0,
+   "STGUSDT": 0,
+   "EOSUSDT": 0,
+   "LOKAUSDT": 0,
+   "STORJUSDT": 0,
+   "BLZUSDT": 0,
+   "HIFIUSDT": 0,
+   "KLAYUSDT": 0,
+   "HNTUSDT": 0,
+   "BETHUSDT": 0,
+   "PLAUSDT": 0,
+   "EPICUSDT": 0,
+   "LITUSDT": 0,
+   "AGIXUSDT": 0,
+   "DNTUSDT": 0,
+   "BNXUSDT": 0,
+   "YFIIUSDT": 0,
+   "PYRUSDT": 0,
+   "MFTUSDT": 0,
+   "BEAMUSDT": 0,
+   "BTGUSDT": 0,
+   "DARUSDT": 0,
+   "OOKIUSDT": 0,
+   "BAKEUSDT": 0,
+   "BONDUSDT": 0
+  },
+  "gaps": {}
+ },
+ "fee_assumption_per_side": 0.001,
+ "frozen_params": {
+  "min_change": 3.0,
+  "volume_mult": 2.0,
+  "min_tests": 5,
+  "cooldown_days": 5,
+  "t9": -7.0,
+  "max_hold_hours": 4.0,
+  "hard_stop_atr_mult": 2.5,
+  "max_open": 15,
+  "reliable_usdt": 100.0,
+  "other_usdt": 40.0
+ },
+ "seen_cutoff": "2026-05-24 22:55:00",
+ "full": {
+  "atr": {
+   "label": "full/atr",
+   "n": 55,
+   "win_pct": 27.27,
+   "net_usd": -11.53,
+   "gross_profit": 45.66,
+   "gross_loss": -57.19,
+   "profit_factor": 0.798,
+   "fee_estimate_usd": 5.36,
+   "net_after_fee_usd": -16.89,
+   "max_drawdown_usd": 17.54,
+   "still_open_at_end": 0,
+   "by_reason": {
+    "ATR Trail": {
+     "n": 6,
+     "usd": 34.46,
+     "mean_pct": 14.36
+    },
+    "Hard Stop": {
+     "n": 35,
+     "usd": -54.28,
+     "mean_pct": -3.25
+    },
+    "Time Exit": {
+     "n": 14,
+     "usd": 8.29,
+     "mean_pct": 1.28
+    }
+   }
+  },
+  "hybrid": {
+   "label": "full/hybrid",
+   "n": 55,
+   "win_pct": 29.09,
+   "net_usd": -20.3,
+   "gross_profit": 36.6,
+   "gross_loss": -56.9,
+   "profit_factor": 0.643,
+   "fee_estimate_usd": 5.36,
+   "net_after_fee_usd": -25.66,
+   "max_drawdown_usd": 25.5,
+   "still_open_at_end": 0,
+   "by_reason": {
+    "ATR Trail": {
+     "n": 5,
+     "usd": 24.57,
+     "mean_pct": 12.28
+    },
+    "Hard Stop": {
+     "n": 35,
+     "usd": -54.28,
+     "mean_pct": -3.25
+    },
+    "Ladder": {
+     "n": 7,
+     "usd": 7.59,
+     "mean_pct": 2.71
+    },
+    "Time Exit": {
+     "n": 8,
+     "usd": 1.82,
+     "mean_pct": 0.23
+    }
+   }
+  },
+  "parts": [
+   {
+    "part": 1,
+    "from": "2026-11-02",
+    "to": "2026-12-02",
+    "atr": {
+     "n": 55,
+     "net_usd": -11.53
+    },
+    "hybrid": {
+     "n": 55,
+     "net_usd": -20.3
+    }
+   }
+  ],
+  "hybrid_minus_atr_net_usd": -8.77
+ },
+ "unseen_before_cutoff": {
+  "atr": {
+   "label": "unseen_before_cutoff/atr",
+   "n": 0
+  },
+  "hybrid": {
+   "label": "unseen_before_cutoff/hybrid",
+   "n": 0
+  },
+  "parts": [
+   {
+    "part": 1,
+    "from": "2026-11-02",
+    "to": "2026-12-02",
+    "atr": {
+     "n": 0,
+     "net_usd": 0
+    },
+    "hybrid": {
+     "n": 0,
+     "net_usd": 0
+    }
+   }
+  ],
+  "hybrid_minus_atr_net_usd": 0
+ },
+ "seen_from_cutoff": {
+  "atr": {
+   "label": "seen_from_cutoff/atr",
+   "n": 55,
+   "win_pct": 27.27,
+   "net_usd": -11.53,
+   "gross_profit": 45.66,
+   "gross_loss": -57.19,
+   "profit_factor": 0.798,
+   "fee_estimate_usd": 5.36,
+   "net_after_fee_usd": -16.89,
+   "max_drawdown_usd": 17.54,
+   "still_open_at_end": 0,
+   "by_reason": {
+    "ATR Trail": {
+     "n": 6,
+     "usd": 34.46,
+     "mean_pct": 14.36
+    },
+    "Hard Stop": {
+     "n": 35,
+     "usd": -54.28,
+     "mean_pct": -3.25
+    },
+    "Time Exit": {
+     "n": 14,
+     "usd": 8.29,
+     "mean_pct": 1.28
+    }
+   }
+  },
+  "hybrid": {
+   "label": "seen_from_cutoff/hybrid",
+   "n": 55,
+   "win_pct": 29.09,
+   "net_usd": -20.3,
+   "gross_profit": 36.6,
+   "gross_loss": -56.9,
+   "profit_factor": 0.643,
+   "fee_estimate_usd": 5.36,
+   "net_after_fee_usd": -25.66,
+   "max_drawdown_usd": 25.5,
+   "still_open_at_end": 0,
+   "by_reason": {
+    "ATR Trail": {
+     "n": 5,
+     "usd": 24.57,
+     "mean_pct": 12.28
+    },
+    "Hard Stop": {
+     "n": 35,
+     "usd": -54.28,
+     "mean_pct": -3.25
+    },
+    "Ladder": {
+     "n": 7,
+     "usd": 7.59,
+     "mean_pct": 2.71
+    },
+    "Time Exit": {
+     "n": 8,
+     "usd": 1.82,
+     "mean_pct": 0.23
+    }
+   }
+  },
+  "parts": [
+   {
+    "part": 1,
+    "from": "2026-05-24",
+    "to": "2026-06-23",
+    "atr": {
+     "n": 0,
+     "net_usd": 0
+    },
+    "hybrid": {
+     "n": 0,
+     "net_usd": 0
+    }
+   },
+   {
+    "part": 2,
+    "from": "2026-06-23",
+    "to": "2026-07-23",
+    "atr": {
+     "n": 0,
+     "net_usd": 0
+    },
+    "hybrid": {
+     "n": 0,
+     "net_usd": 0
+    }
+   },
+   {
+    "part": 3,
+    "from": "2026-07-23",
+    "to": "2026-08-22",
+    "atr": {
+     "n": 0,
+     "net_usd": 0
+    },
+    "hybrid": {
+     "n": 0,
+     "net_usd": 0
+    }
+   },
+   {
+    "part": 4,
+    "from": "2026-08-22",
+    "to": "2026-09-21",
+    "atr": {
+     "n": 0,
+     "net_usd": 0
+    },
+    "hybrid": {
+     "n": 0,
+     "net_usd": 0
+    }
+   },
+   {
+    "part": 5,
+    "from": "2026-09-21",
+    "to": "2026-10-21",
+    "atr": {
+     "n": 0,
+     "net_usd": 0
+    },
+    "hybrid": {
+     "n": 0,
+     "net_usd": 0
+    }
+   },
+   {
+    "part": 6,
+    "from": "2026-10-21",
+    "to": "2026-11-20",
+    "atr": {
+     "n": 55,
+     "net_usd": -11.53
+    },
+    "hybrid": {
+     "n": 55,
+     "net_usd": -20.3
+    }
+   }
+  ],
+  "hybrid_minus_atr_net_usd": -8.77
+ },
+ "paired_same_entries_full": {
+  "n": 55,
+  "total_diff_usd": -8.77,
+  "per_trade_usd": -0.1595,
+  "se": 0.1514,
+  "t": -1.05,
+  "bootstrap95_total": [
+   -23.8,
+   3.3
+  ],
+  "better": 4,
+  "worse": 4,
+  "baseline_replay_matches_module": true
+ }
+}
